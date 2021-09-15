@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/CubicBezier_MK0/CubicBezier.gd" type="Script" id=1]
+[ext_resource path="res://assets/green_button13.png" type="Texture" id=2]
+[ext_resource path="res://assets/Inconsolata[wdth,wght].ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 190, 49 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 190, 49 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 20
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 20
+font_data = ExtResource( 3 )
+
+[node name="CubicBezier" type="Node2D"]
+position = Vector2( -0.707108, -0.707108 )
+z_index = 1
+script = ExtResource( 1 )
+
+[node name="P0" type="Position2D" parent="."]
+position = Vector2( 167, 161 )
+
+[node name="Priority" type="LineEdit" parent="P0"]
+margin_right = 120.0
+margin_bottom = 24.0
+focus_mode = 1
+custom_styles/focus = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+expand_to_text_length = true
+placeholder_text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="P1" type="Position2D" parent="."]
+position = Vector2( 166, 79 )
+
+[node name="Midpoint" type="Position2D" parent="."]
+position = Vector2( 229.565, 105.953 )
+
+[node name="TransitionEquation" type="LineEdit" parent="Midpoint"]
+margin_right = 58.0
+margin_bottom = 24.0
+focus_mode = 1
+custom_styles/focus = SubResource( 2 )
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "A==1'b1"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="P2" type="Position2D" parent="."]
+position = Vector2( 294, 83 )
+
+[node name="P3" type="Position2D" parent="."]
+position = Vector2( 300, 163 )
+
+[node name="LineP0P1" type="Line2D" parent="."]
+width = 5.0
+default_color = Color( 0.254902, 0.227451, 0.333333, 1 )
+
+[node name="LineP2P3" type="Line2D" parent="."]
+width = 5.0
+default_color = Color( 0.254902, 0.227451, 0.333333, 1 )
+
+[connection signal="mouse_entered" from="P0/Priority" to="." method="_on_Priority_mouse_entered"]
+[connection signal="mouse_exited" from="P0/Priority" to="." method="_on_Priority_mouse_exited"]
+[connection signal="text_entered" from="P0/Priority" to="." method="_on_LineEdit_text_entered"]
+[connection signal="mouse_entered" from="Midpoint/TransitionEquation" to="." method="_on_TransitionEquation_mouse_entered"]
+[connection signal="mouse_exited" from="Midpoint/TransitionEquation" to="." method="_on_TransitionEquation_mouse_exited"]
