@@ -1,0 +1,13 @@
+* Command pattern
+  The idea is that we encapsulate user actions into this object - all of the data we need to execute those actions is maintained in one place, and is accessible through two commands: do, and undo.
+  Because they all derive from a common ancestor (Node), we can generate them and execute them, then place them in the right "place" (i.e. - we add them to the DoStack or RedoStack, based on what the user is trying to do).
+  Thus the "Controller" initiates all actions "really" - i.e. it is the one calling do() for each action, and placing them in the right location.
+
+  As an example, nodes are moved "live" - how does this match up to a single cohesive action? Well, it's like a path function - does the user want to undo every single pixel of movement, or only move to the last location? Exactly - they don't. So the state emits a "move" signal once it is DONE dragging, and THIS is stored in a command - but because the object is already moved, it doesn't need to be executed. HOWEVER, if the user undoes then REDOES that action, then the ABILITY to do and undo that command comes into play!
+
+  The interesting thing about this is that it could all be done direclty via the Controller node, but the 'extra step' of encapsulating the action into two functions greatly reduces the complexity of the undo/redo action. It's...almost counter-intuitive. 
+
+  There's quite a bit of weaving here, but I think I see how it can be put together. 
+
+* Undo/Redo
+  I added a simple undo/redo by encapsulating the actions with the command pattern and adding a pair of stacks. There was an edge case where if you undid the action of adding a state, it would be freed, then if you redid it the state would be recreated - but it was an incorrect reference when you redid the MOVE command (create state, move, undo, undo, redo, redo would error). I got around that in the MoveStateCommand by simply searching through the stack for the correct reference at do/undo time. That appears to be working.

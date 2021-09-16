@@ -7,9 +7,9 @@ var dragging : bool = false
 var selected       : bool = false
 var mouse_in_state : bool = false
 var transition_anchors : Array = []
+var start_position_of_drag : Vector2
 
-signal move(position) 
-
+signal move(state, start_position, final_position) # Emitted when done with a drag
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,6 +29,7 @@ func _process(delta: float) -> void:
 	if (mouse_in_state && Input.is_action_just_pressed("left_click")):
 		dragging = true
 		selected = true
+		start_position_of_drag = global_position
 		update()
 
 	if (dragging && Input.is_action_pressed("left_click")):
@@ -53,7 +54,6 @@ func _process(delta: float) -> void:
 					transition_anchors.append(collider)
 					collider.attached_state = self # Tell the transition anchor the state we're attached to, so we have a reference to it.
 					collider.update()
-
 				for anchor in transition_anchors:
 					anchor.position += collision.travel
 					anchor.position += collision.remainder
@@ -63,7 +63,8 @@ func _process(delta: float) -> void:
 			
 	else:
 		if dragging:
-			emit_signal("move",global_position)
+			print("Emitting drag signal")
+			emit_signal("move",self,start_position_of_drag,global_position)
 		dragging = false	
 		
 		

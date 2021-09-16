@@ -2,7 +2,6 @@ extends Node
 class_name BaseCommand
 
 func do():
-	pass
-	
+	pass	
 func undo():
 	pass
