@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/State/State.gd" type="Script" id=1]
+[ext_resource path="res://assets/Inconsolata-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://src/UI/Popups/Set State Name.tscn" type="PackedScene" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 50.0
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+font_data = ExtResource( 2 )
+
+[node name="State" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -25.0
+margin_top = -11.0
+margin_right = 25.0
+margin_bottom = 11.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "State"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Set State Name" parent="." instance=ExtResource( 3 )]
+
+[connection signal="input_event" from="." to="." method="_on_State_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_State_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_State_mouse_exited"]
