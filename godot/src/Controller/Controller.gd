@@ -6,11 +6,22 @@ var KineticState = preload("res://src/KineticState/Kinetic State.tscn")
 var KineticTransitionAnchor = preload("res://src/KineticTransitionAnchor/Kinetic Transition Anchor.tscn")
 var next_state_index : int = 0 #just an upcounter
 
+enum SYS_STATE{
+	IDLE,
+	ADDING_STATE,
+	ADDING_TRANSITION
+}
+
+var current_state = SYS_STATE.IDLE
+
+var mouse_xy_current : Vector2 = Vector2.ZERO
+
 func _ready():
 	# Connect UI layer to controller
-	$"CanvasLayer/MenuBar".connect("undo",self,"undo")
-	$"CanvasLayer/MenuBar".connect("redo",self,"redo")
-	
+	$CanvasLayer/MenuBar.connect("undo",self,"undo")
+	$CanvasLayer/MenuBar.connect("redo",self,"redo")
+	$CanvasLayer/MenuBar.connect("add_state",self,"add_state_cmd")
+	$CanvasLayer/MenuBar.connect("add_transition",self,"add_transition_cmd")
 	
 	#add_state(Vector2(300,300))
 	#yield(get_tree().create_timer(1.0), "timeout")
@@ -29,6 +40,8 @@ func _process(delta):
 		for astate in $States.get_children():
 			if not astate.dragging:
 				astate.clear_selected()
+	
+
 		
 
 ###############################################################################
@@ -123,6 +136,26 @@ func _state_moved(state,start_position, final_position):
 	# It is effectively already done, but .do() and .undo() need to both exist for
 	# the symmetry of implementation in the undo stack
 
-
+func _input(event):
+	if event is InputEventMouseMotion:
+		get_mouse_pt()
+		if current_state==SYS_STATE.ADDING_STATE:
+			update()
+	
 func _on_DebugTimer_timeout() -> void:
 	add_state(Vector2(50,50))
+	
+func add_state_cmd() -> void:
+	if current_state == SYS_STATE.IDLE:
+		current_state = SYS_STATE.ADDING_STATE
+
+func add_transition_cmd() -> void:
+	print("ADD TRANSITION COMMAND")
+
+func get_mouse_pt():
+	mouse_xy_current = get_global_mouse_position()
+	$"CanvasLayer/Status Bar".set_MousePosLabel(mouse_xy_current)
+	
+func _draw() -> void:
+	if current_state == SYS_STATE.ADDING_STATE:
+		draw_circle(mouse_xy_current,50.0,Color(0.22,0.77,0.22))

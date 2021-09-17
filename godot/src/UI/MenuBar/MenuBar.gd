@@ -4,6 +4,8 @@ signal copy
 signal delete
 signal undo
 signal redo
+signal add_state
+signal add_transition
 
 # The structure of this essentially just passes menu options through as signals
 # to be handled in a higher level. This disconnects the HUD layer and allows it 
@@ -31,5 +33,8 @@ func _on_EditMenu_pressed(id) -> void:
 		emit_signal("redo")
 	
 func _on_ToolsMenu_pressed(id) -> void:
-	print("toolsmenu id:"+str(id))
+	if id==0:
+		emit_signal("add_state")
+	elif id==1:
+		emit_signal("add_transition")
 	

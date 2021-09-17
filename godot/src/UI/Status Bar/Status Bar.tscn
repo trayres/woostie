@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/UI/Status Bar/Status Bar.gd" type="Script" id=1]
+
+[node name="Status Bar" type="MarginContainer"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -14.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 1016.0
+margin_bottom = 14.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1016.0
+margin_bottom = 14.0
+grow_horizontal = 0
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_right = 936.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Idle"
+
+[node name="MousePosLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 940.0
+margin_right = 1016.0
+margin_bottom = 14.0
+text = "(1000,1000)"
