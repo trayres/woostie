@@ -27,6 +27,7 @@ func do():
 	#return a_state
 	# Connect signals to the controller
 	var result = created_state.connect("move",controller,"_state_moved")
+	result = created_state.connect("set_state_name",controller,"_set_state_name")
 	
 func undo():
 	created_state.queue_free()

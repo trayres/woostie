@@ -6,13 +6,10 @@ signal undo
 signal redo
 signal add_state
 signal add_transition
+var    l_show_transition_anchors : bool = false
+signal show_transition_achors(l_show_transition_anchors)
 
-# The structure of this essentially just passes menu options through as signals
-# to be handled in a higher level. This disconnects the HUD layer and allows it 
-# to be replaced by something fancier looking, or to be replicated other ways
 
-# Also note: A signal like "delete" obviously relies on a separate controller 
-# to interpret that signal
 
 func _ready() -> void:
 	$HBoxContainer/FileMenu.get_popup().connect("id_pressed",self,"_on_FileMenu_pressed")
@@ -37,4 +34,8 @@ func _on_ToolsMenu_pressed(id) -> void:
 		emit_signal("add_state")
 	elif id==1:
 		emit_signal("add_transition")
-	
+	elif id==2:
+		l_show_transition_anchors = not l_show_transition_anchors
+		$HBoxContainer/ToolsMenu.get_popup().set_item_checked(2,l_show_transition_anchors)
+		emit_signal("show_transition_achors",l_show_transition_anchors)
+
