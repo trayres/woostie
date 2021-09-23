@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://src/CubicBezier_MK0/CubicBezier.gd" type="Script" id=1]
+[ext_resource path="res://assets/Inconsolata[wdth,wght].ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/green_button13.png" type="Texture" id=2]
-[ext_resource path="res://assets/Inconsolata[wdth,wght].ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://src/CubicBezier/CubicBezier_MK0/CubicBezier.gd" type="Script" id=3]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 2 )
@@ -14,16 +14,16 @@ region_rect = Rect2( 0, 0, 190, 49 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 20
-font_data = ExtResource( 3 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 20
-font_data = ExtResource( 3 )
+font_data = ExtResource( 1 )
 
 [node name="CubicBezier" type="Node2D"]
 position = Vector2( -0.707108, -0.707108 )
 z_index = 1
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 
 [node name="P0" type="Position2D" parent="."]
 position = Vector2( 167, 161 )

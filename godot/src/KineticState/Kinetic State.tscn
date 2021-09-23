@@ -1,18 +1,17 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/KineticState/Kinetic State.gd" type="Script" id=1]
-[ext_resource path="res://src/UI/Popups/Set State Name.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/KineticState/GravityWell.gd" type="Script" id=3]
 [ext_resource path="res://assets/Inconsolata-Regular.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 50.0
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 24
 font_data = ExtResource( 4 )
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 70.0
 
 [node name="Kinematic State" type="KinematicBody2D"]
@@ -24,15 +23,19 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = SubResource( 3 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -13.0
+margin_right = 20.0
+margin_bottom = 13.0
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Set State Name" parent="." instance=ExtResource( 2 )]
 
 [node name="GravityWell" type="Area2D" parent="."]
 modulate = Color( 0.0745098, 0.282353, 0.831373, 1 )
@@ -42,10 +45,9 @@ collision_mask = 4
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityWell"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [connection signal="input_event" from="." to="." method="_on_Kinematic_State_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_Kinematic_State_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_Kinematic_State_mouse_exited"]
-[connection signal="set_state_name" from="Set State Name" to="." method="popup_set_state_name"]
 [connection signal="area_shape_entered" from="GravityWell" to="." method="_on_GravityWell_area_shape_entered"]

@@ -7,14 +7,16 @@ var dragging : bool = false
 var selected       : bool = false
 var mouse_in_state : bool = false
 var transition_anchors : Array = []
+var transition_anchors_head : Array = []
+var transition_anchors_tail : Array = []
 var start_position_of_drag : Vector2
 
 signal move(state, start_position, final_position) # Emitted when done with a drag
+signal set_state_name(state_name,idx)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group("Kinetic State")
-	$"Set State Name".connect("set_state_name",self,"set_name")
 
 # Todo: Cleanup setup and setup_state
 func setup(idx:int, pos : Vector2):
@@ -49,18 +51,43 @@ func _process(delta: float) -> void:
 			var collision : KinematicCollision2D = move_and_collide(rel_vec)
 			#position += collision.remainder
 			var collider = collision.collider
-			if collider.is_in_group("Kinetic Transition Anchor"):
-				if not transition_anchors.has(collider):
-					transition_anchors.append(collider)
+			#if collider.is_in_group("Kinetic Transition Anchor"):
+			#	if not transition_anchors.has(collider):
+			#		transition_anchors.append(collider)
+			#		collider.attached_state = self # Tell the transition anchor the state we're attached to, so we have a reference to it.
+			#		collider.update()
+			#	for anchor in transition_anchors:
+			#		anchor.position += collision.travel
+			#		anchor.position += collision.remainder
+			#	position += collision.remainder
+			if collider.is_in_group("Kinetic State Anchor Head"):
+				print("HIT TRANSITION HEAD")
+				if not transition_anchors_head.has(collider):
+					transition_anchors_head.append(collider)
 					collider.attached_state = self # Tell the transition anchor the state we're attached to, so we have a reference to it.
 					collider.update()
-				for anchor in transition_anchors:
+				for anchor in transition_anchors_head:
 					anchor.position += collision.travel
 					anchor.position += collision.remainder
-				position += collision.remainder
+				for anchor in transition_anchors_tail:
+					anchor.position += collision.travel
+					anchor.position += collision.remainder					
+				position += collision.remainder				
+			if collider.is_in_group("Kinetic State Anchor Tail"):
+				print("HIT TRANSITION TAIL")
+				if not transition_anchors_tail.has(collider):
+					transition_anchors_tail.append(collider)
+					collider.attached_state = self # Tell the transition anchor the state we're attached to, so we have a reference to it.
+					collider.update()
+				for anchor in transition_anchors_tail:
+					anchor.position += collision.travel
+					anchor.position += collision.remainder					
+				for anchor in transition_anchors_head:
+					anchor.position += collision.travel
+					anchor.position += collision.remainder
+				position += collision.remainder							
 			if collider.is_in_group("Kinetic State"):
 				pass
-			
 	else:
 		if dragging:
 			print("Emitting drag signal")
@@ -72,11 +99,9 @@ func _process(delta: float) -> void:
 func setup_state(state_name : String):
 	self.state_name = state_name
 	$Label.text=state_name
-	var lbl_size = $Label.get_size()
-	var new_pos : Vector2
-	new_pos.x = 0-lbl_size.x/2
-	new_pos.y = 0-lbl_size.y/2
-	$Label.set_position(new_pos)
+	var rect = $Label.rect_size
+	var pos = -rect/2
+	$Label.rect_position = pos
 	
 func set_selected()	-> void:
 	selected = true
@@ -112,8 +137,9 @@ func _on_Kinematic_State_input_event(viewport: Node, event: InputEvent, shape_id
 				selected = true
 			if event.is_doubleclick():
 				print("Double Click!")
-				$"Set State Name".setup(state_name,idx)
-				$"Set State Name".popup_centered()	
+				#$"Set State Name".setup(state_name,idx)
+				#$"Set State Name".popup_centered()	
+				emit_signal("set_state_name",state_name,idx)
 
 
 

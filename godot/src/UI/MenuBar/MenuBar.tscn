@@ -39,4 +39,4 @@ margin_right = 125.0
 margin_bottom = 20.0
 focus_mode = 2
 text = "Tools"
-items = [ "Add State", null, 0, false, false, 0, 0, null, "", false, "Add Transition", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "Add State", null, 0, false, false, 0, 0, null, "", false, "Add Transition", null, 0, false, false, 1, 0, null, "", false, "Show Transition Anchors", null, 1, false, false, 2, 0, null, "", false ]

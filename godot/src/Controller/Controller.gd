@@ -4,7 +4,11 @@ var AddStateCommand  = preload("res://src/Commands/AddStateCommand.gd")
 var MoveStateCommand = preload("res://src/Commands/MoveStateCommand.gd")
 var KineticState = preload("res://src/KineticState/Kinetic State.tscn")
 var KineticTransitionAnchor = preload("res://src/KineticTransitionAnchor/Kinetic Transition Anchor.tscn")
+var Transition = preload("res://src/CubicBezier/CubicBezier_MK1/Transition.tscn")
 var next_state_index : int = 0 #just an upcounter
+
+# Temporary Transition Anchor Points
+var pts : Array 
 
 enum SYS_STATE{
 	IDLE,
@@ -22,6 +26,7 @@ func _ready():
 	$CanvasLayer/MenuBar.connect("redo",self,"redo")
 	$CanvasLayer/MenuBar.connect("add_state",self,"add_state_cmd")
 	$CanvasLayer/MenuBar.connect("add_transition",self,"add_transition_cmd")
+	$CanvasLayer/MenuBar.connect("show_transition_achors",self,"show_transition_achors_cmd")
 	
 	#add_state(Vector2(300,300))
 	#yield(get_tree().create_timer(1.0), "timeout")
@@ -36,10 +41,18 @@ func _ready():
 	
 # Physics Process	
 func _process(delta):
-	if Input.is_action_pressed("left_click"):
-		for astate in $States.get_children():
-			if not astate.dragging:
-				astate.clear_selected()
+	if current_state == SYS_STATE.IDLE:
+		if Input.is_action_just_pressed("left_click"):
+			for astate in $States.get_children():
+				if not astate.dragging:
+					astate.clear_selected()
+	
+	if current_state == SYS_STATE.ADDING_STATE:
+		if Input.is_action_just_pressed("left_click"):
+			add_state(mouse_xy_current)
+			change_state(SYS_STATE.IDLE)
+		if Input.is_action_just_pressed("ui_cancel"):
+			change_state(SYS_STATE.IDLE)
 	
 
 		
@@ -135,27 +148,99 @@ func _state_moved(state,start_position, final_position):
 	# Note: Because the node is already moved, we don't need to .do() it here.
 	# It is effectively already done, but .do() and .undo() need to both exist for
 	# the symmetry of implementation in the undo stack
+	
+# This is the signal from a state - it fires the popup	
+func _set_state_name(state_name,idx) -> void:
+	$"CanvasLayer/Set State Name".setup(state_name,idx)
+	$"CanvasLayer/Set State Name".popup_centered()
+
 
 func _input(event):
 	if event is InputEventMouseMotion:
 		get_mouse_pt()
 		if current_state==SYS_STATE.ADDING_STATE:
 			update()
+	if event is InputEventMouseButton:
+		if current_state==SYS_STATE.ADDING_TRANSITION:
+			if event.button_index == BUTTON_LEFT and event.pressed:
+				if pts.size()==3:
+					pts.append(mouse_xy_current)
+					print("The points chosen for anchors:")
+					for apt in pts:
+						print("point:"+str(apt))
+					pts.clear()
+					change_state(SYS_STATE.IDLE)
+				else:
+					pts.append(mouse_xy_current)
+					change_state(SYS_STATE.ADDING_TRANSITION)
 	
 func _on_DebugTimer_timeout() -> void:
 	add_state(Vector2(50,50))
+	add_state(Vector2(250,350))
+	add_state(Vector2(550,550))
+	#add_transition_anchor(Vector2(100,100))
 	
 func add_state_cmd() -> void:
-	if current_state == SYS_STATE.IDLE:
-		current_state = SYS_STATE.ADDING_STATE
+	change_state(SYS_STATE.ADDING_STATE)
+	#if current_state == SYS_STATE.IDLE:
+	#	current_state = SYS_STATE.ADDING_STATE
 
 func add_transition_cmd() -> void:
-	print("ADD TRANSITION COMMAND")
+	change_state(SYS_STATE.ADDING_TRANSITION)
 
 func get_mouse_pt():
 	mouse_xy_current = get_global_mouse_position()
+	print(str(mouse_xy_current))
 	$"CanvasLayer/Status Bar".set_MousePosLabel(mouse_xy_current)
 	
 func _draw() -> void:
 	if current_state == SYS_STATE.ADDING_STATE:
 		draw_circle(mouse_xy_current,50.0,Color(0.22,0.77,0.22))
+	if current_state == SYS_STATE.ADDING_TRANSITION:
+		pass
+		
+# This is to localize secondary actions that need to take place as a result 
+# of switching states - calling update() on the image, updating the statuslabel,
+# things like that.		
+func change_state(next_state) -> void:
+	# Update the status label
+	if next_state == SYS_STATE.IDLE:
+		$"CanvasLayer/Status Bar".set_StatusLabel("Idle")
+	elif next_state == SYS_STATE.ADDING_STATE:
+		$"CanvasLayer/Status Bar".set_StatusLabel("Adding State")
+	elif next_state == SYS_STATE.ADDING_TRANSITION:
+		$"CanvasLayer/Status Bar".set_StatusLabel("Adding Transition Point "+str(pts.size())+" of 4")
+	# Force a graphical update in a few cases
+	if current_state == SYS_STATE.IDLE:
+		if next_state == SYS_STATE.ADDING_STATE:
+			current_state = SYS_STATE.ADDING_STATE
+		if next_state == SYS_STATE.ADDING_TRANSITION:
+			current_state = SYS_STATE.ADDING_TRANSITION
+	if current_state == SYS_STATE.ADDING_STATE:
+		if next_state == SYS_STATE.IDLE:
+			current_state = SYS_STATE.IDLE
+			update()
+	if current_state == SYS_STATE.ADDING_TRANSITION:
+		if next_state == SYS_STATE.IDLE:
+			current_state = SYS_STATE.IDLE
+			update()
+		if next_state == SYS_STATE.ADDING_TRANSITION:
+			update()
+
+# From the UI layer's checkbox for 'Force Show Transition Anchors'
+func show_transition_achors_cmd(show_transition_achors : bool)->void:
+	print("SHOW TRANSITION ANCHORS?:"+str(show_transition_achors))
+	if show_transition_achors:
+		for atransition in $Transitions.get_children():
+			atransition.set_force_show_transition_anchors()
+	else:
+		for atransition in $Transitions.get_children():
+			atransition.clear_force_show_transition_anchors()
+
+
+# From $"Set State"'s ACCEPT button
+func _on_Set_State_Name_set_state_name(idx,name) -> void:
+	print("SET IDX:"+str(idx)+" with NAME:" + name)
+	for astate in $States.get_children():
+		if astate.idx==idx:
+			astate.setup_state(name)
