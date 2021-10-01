@@ -61,9 +61,13 @@ func _on_HeadMouseNear_mouse_entered() -> void:
 
 func set_force_show_transition_anchors()->void:
 	$HeadAnchor.set_force_show_anchors()
+	$P1.set_force_show_anchors()
+	$P2.set_force_show_anchors()
 	$TailAnchor.set_force_show_anchors()
 func clear_force_show_transition_anchors()->void:
 	$HeadAnchor.clear_force_show_anchors()
+	$P1.clear_force_show_anchors()
+	$P2.clear_force_show_anchors()
 	$TailAnchor.clear_force_show_anchors()
 
 
