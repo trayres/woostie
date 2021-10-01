@@ -21,6 +21,8 @@ signal detach(detach_id)
 # ugly references hanging around)
 signal set_attachment(transition_anchor,attach_id)
 signal move(idx,start_position,final_position)
+signal mouse_in_anchor(idx)
+signal mouse_exit_anchor(idx)
 
 func _ready() -> void:
 	add_to_group("Kinetic Transition Anchor")
@@ -70,7 +72,9 @@ func _process(delta: float) -> void:
 		if dragging:
 			emit_signal("move",node_idx,start_position_of_drag,self.global_position)
 		dragging = false
-		if is_in_gravity_well and gravity_well_timeout_running:
+		if is_in_group("ControlAnchor"):
+			pass
+		elif is_in_gravity_well and gravity_well_timeout_running:
 			var rel_vec : Vector2 = gravity_well_target_position - global_position
 			print("rel_vec:"+str(rel_vec))
 			var collision : KinematicCollision2D = move_and_collide(rel_vec.normalized()*1)

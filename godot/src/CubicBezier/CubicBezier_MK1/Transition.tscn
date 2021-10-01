@@ -4,29 +4,38 @@
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK1/Kinetic Transition Anchor Tail.gd" type="Script" id=2]
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK1/Kinetic Transition Anchor Head.gd" type="Script" id=3]
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK1/Transition.gd" type="Script" id=4]
-[ext_resource path="res://src/ControlAnchor/ControlAnchor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/ControlAnchor/ControlAnchor.gd" type="Script" id=5]
 
 [node name="Transition" type="Node2D"]
+position = Vector2( 15.0175, 14.669 )
 script = ExtResource( 4 )
 
 [node name="HeadAnchor" parent="." instance=ExtResource( 1 )]
 position = Vector2( 137.73, 292.412 )
 input_pickable = true
 collision_layer = 2
-collision_mask = 7
+collision_mask = 3
 script = ExtResource( 3 )
 
-[node name="P1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 147.078, 169.706 )
+[node name="P1" parent="." instance=ExtResource( 1 )]
+position = Vector2( 149.287, 181.839 )
+input_pickable = true
+collision_layer = 8
+collision_mask = 8
+script = ExtResource( 5 )
 
-[node name="P2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 260.215, 83.4386 )
+[node name="P2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 261.534, 90.9194 )
+input_pickable = true
+collision_layer = 8
+collision_mask = 8
+script = ExtResource( 5 )
 
 [node name="TailAnchor" parent="." instance=ExtResource( 1 )]
 position = Vector2( 390.764, 112.637 )
 input_pickable = true
 collision_layer = 2
-collision_mask = 7
+collision_mask = 3
 script = ExtResource( 2 )
 node_idx = 3
 

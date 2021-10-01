@@ -11,3 +11,8 @@
 
 * Undo/Redo
   I added a simple undo/redo by encapsulating the actions with the command pattern and adding a pair of stacks. There was an edge case where if you undid the action of adding a state, it would be freed, then if you redid it the state would be recreated - but it was an incorrect reference when you redid the MOVE command (create state, move, undo, undo, redo, redo would error). I got around that in the MoveStateCommand by simply searching through the stack for the correct reference at do/undo time. That appears to be working.
+
+* Current Direction
+  We need to replace the MK1 transition object added on build with the MK2 transition object, and then determine what is missing. It's quite a lot - the CubicBezier_MK0 actually did a bit, but didn't make proper use of signals and architecture.
+  Originally the idea was to mock up the instantiation of the transition object via the command pattern, but the command pattern has a reference to the controller (so that we can hook up the signals from the created transition object!)
+  So rather than doing it as a mockup, I'll just inject the CubicBezier_MK2 directly into the Woostie project, and debug live as we go.

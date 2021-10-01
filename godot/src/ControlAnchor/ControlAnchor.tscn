@@ -1,11 +1,49 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://src/ControlAnchor/ControlAnchor.gd" type="Script" id=1]
+[sub_resource type="GDScript" id=2]
+script/source = "extends KinematicBody2D
+
+var radius : float = 10.0
+var mouse_in_anchor : bool = false
+var idx            : int  = 0
+var dragging : bool = false
+var start_position_of_drag : Vector2
+
+func _ready() -> void:
+	pass
+	
+func _process(delta: float) -> void:
+	if (mouse_in_anchor && Input.is_action_just_pressed(\"left_click\")):
+		dragging = true
+		start_position_of_drag = global_position
+		update()
+	
+func setup() -> void:
+	pass
+	
+func _draw() -> void:
+	#if mouse_in_anchor:
+	draw_circle(Vector2(0.0,0.0),10.0,Color(0.22,0.34,0.72))
+
+
+func _on_ControlAnchor_mouse_entered() -> void:
+	mouse_in_anchor = true
+	print(\"Mouse in control anchor\")
+	update()
+	
+func _on_ControlAnchor_mouse_exited() -> void:
+	mouse_in_anchor = false
+	print(\"Mouse out of control anchor\")
+	update()
+"
 
 [sub_resource type="CircleShape2D" id=1]
 
-[node name="ControlAnchor" type="Area2D"]
-script = ExtResource( 1 )
+[node name="ControlAnchor" type="KinematicBody2D"]
+input_pickable = true
+collision_layer = 8
+collision_mask = 8
+script = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Commands/BaseCommand.gd"
 }, {
-"base": "Node",
-"class": "Command",
-"language": "GDScript",
-"path": "res://src/Command/Command.gd"
-}, {
 "base": "KinematicBody2D",
 "class": "KineticState",
 "language": "GDScript",
@@ -33,19 +28,12 @@ _global_script_classes=[ {
 "class": "State",
 "language": "GDScript",
 "path": "res://src/State/State.gd"
-}, {
-"base": "Node",
-"class": "StateCommand",
-"language": "GDScript",
-"path": "res://src/Command/StateCommand.gd"
 } ]
 _global_script_class_icons={
 "BaseCommand": "",
-"Command": "",
 "KineticState": "",
 "KineticTransition": "",
-"State": "",
-"StateCommand": ""
+"State": ""
 }
 
 [application]
@@ -86,6 +74,7 @@ pan_with_mouse={
 2d_physics/layer_1="State Body"
 2d_physics/layer_2="Transition Anchor"
 2d_physics/layer_3="State Gravity Well"
+2d_physics/layer_4="Transition Control Anchor"
 
 [physics]
 
