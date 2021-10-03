@@ -1,7 +1,9 @@
 extends Node2D
 #var State = preload("res://src/State/State.tscn")
+# Commands
 var AddStateCommand  = preload("res://src/Commands/AddStateCommand.gd")
 var MoveStateCommand = preload("res://src/Commands/MoveStateCommand.gd")
+var AddTransitionCommand = preload("res://src/Commands/AddTransition.gd")
 var KineticState = preload("res://src/KineticState/Kinetic State.tscn")
 var KineticTransitionAnchor = preload("res://src/KineticTransitionAnchor/Kinetic Transition Anchor.tscn")
 var Transition = preload("res://src/CubicBezier/CubicBezier_MK1/Transition.tscn")
@@ -179,12 +181,22 @@ func _on_DebugTimer_timeout() -> void:
 	add_state(Vector2(250,350))
 	add_state(Vector2(550,550))
 	#add_transition_anchor(Vector2(100,100))
+	var aTransition = AddTransitionCommand.new()
+	# _pts = <<
+	# FIXME: This will result in an error.
+	# TODO: Finish mock-up of transition command.
+	var dbg_transition_pts = [Vector2(600,600),Vector2(650,650),Vector2(700,650),Vector2(750,600)]
+	aTransition.setup(self,$States,$Transitions,dbg_transition_pts,1)
+	aTransition.do()
+	
+	
 	
 func add_state_cmd() -> void:
 	change_state(SYS_STATE.ADDING_STATE)
 	#if current_state == SYS_STATE.IDLE:
 	#	current_state = SYS_STATE.ADDING_STATE
 
+# This comes from the GUI layer - it kicks off the process of adding a transition
 func add_transition_cmd() -> void:
 	change_state(SYS_STATE.ADDING_TRANSITION)
 
@@ -244,3 +256,10 @@ func _on_Set_State_Name_set_state_name(idx,name) -> void:
 	for astate in $States.get_children():
 		if astate.idx==idx:
 			astate.setup_state(name)
+
+func transition_anchor_moved(transition_idx, node_idx, start_position, final_position)->void:
+	print("Transition anchor moved event fired")
+	print("transition_idx:"+str(transition_idx))
+	print("node_idx:"+str(node_idx))
+	print("start_position:"+str(start_position))
+	print("final_position:"+str(final_position))
