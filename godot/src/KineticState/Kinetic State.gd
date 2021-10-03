@@ -45,6 +45,7 @@ func _process(delta: float) -> void:
 			set_position(final_pos)
 			for anchor in transition_anchors:
 				anchor.position += rel_vec
+				anchor.update()
 		# But if we are going to collide, let's see the collision
 		else:
 			#move_and_slide(final_vec)
@@ -61,31 +62,35 @@ func _process(delta: float) -> void:
 			#		anchor.position += collision.remainder
 			#	position += collision.remainder
 			if collider.is_in_group("Kinetic State Anchor Head"):
-				print("HIT TRANSITION HEAD")
 				if not transition_anchors_head.has(collider):
 					transition_anchors_head.append(collider)
 					collider.attached_state = self # Tell the transition anchor the state we're attached to, so we have a reference to it.
-					collider.update()
 				for anchor in transition_anchors_head:
-					anchor.position += collision.travel
-					anchor.position += collision.remainder
+					anchor.move_head(collision.travel)
+					anchor.move_head(collision.remainder)
+					#anchor.position += collision.travel
+					#anchor.position += collision.remainder
 				for anchor in transition_anchors_tail:
-					anchor.position += collision.travel
-					anchor.position += collision.remainder					
+					anchor.move_tail(collision.travel)
+					anchor.move_tail(collision.remainder)
+					#anchor.position += collision.travel
+					#anchor.position += collision.remainder
 				position += collision.remainder				
 			if collider.is_in_group("Kinetic State Anchor Tail"):
-				print("HIT TRANSITION TAIL")
 				if not transition_anchors_tail.has(collider):
 					transition_anchors_tail.append(collider)
 					collider.attached_state = self # Tell the transition anchor the state we're attached to, so we have a reference to it.
-					collider.update()
 				for anchor in transition_anchors_tail:
-					anchor.position += collision.travel
-					anchor.position += collision.remainder					
+					anchor.move_tail(collision.travel)
+					anchor.move_tail(collision.remainder)					
+					#anchor.position += collision.travel
+					#anchor.position += collision.remainder
 				for anchor in transition_anchors_head:
-					anchor.position += collision.travel
-					anchor.position += collision.remainder
-				position += collision.remainder							
+					anchor.move_head(collision.travel)
+					anchor.move_head(collision.remainder)					
+					#anchor.position += collision.travel
+					#anchor.position += collision.remainder
+				position += collision.remainder	
 			if collider.is_in_group("Kinetic State"):
 				pass
 	else:

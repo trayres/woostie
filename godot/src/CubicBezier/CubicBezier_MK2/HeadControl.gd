@@ -13,6 +13,7 @@ var start_position_of_drag : Vector2
 # Detach is issued when a transition anchor is moved in such a way as to indicate
 # that the user would like to detach it from a state.
 signal move(node_idx,start_position_of_drag,final_position_of_drag)
+signal need_redraw()
 
 func _ready() -> void:
 	add_to_group("HeadControl")
@@ -30,6 +31,7 @@ func _process(delta: float) -> void:
 		var will_collide : bool = test_move(Transform2D(transform), rel_vec, true) # was final_pos
 		if not will_collide:
 			position += rel_vec
+			emit_signal("need_redraw")
 		if will_collide:
 			pass
 	else:

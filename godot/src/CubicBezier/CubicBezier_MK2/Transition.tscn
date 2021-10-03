@@ -1,12 +1,25 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK2/Head.gd" type="Script" id=1]
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK2/TailControl.gd" type="Script" id=2]
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK2/HeadControl.gd" type="Script" id=3]
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK2/Tail.gd" type="Script" id=4]
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK2/Transition.gd" type="Script" id=5]
+[ext_resource path="res://assets/Inconsolata-Regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://src/CubicBezier/CubicBezier_MK2/MovingLabel.gd" type="Script" id=7]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=3]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id=4]
+
+[sub_resource type="CircleShape2D" id=5]
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 4.0
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 6 )
 
 [node name="Transition" type="Node2D"]
 script = ExtResource( 5 )
@@ -18,26 +31,26 @@ collision_mask = 3
 collision/safe_margin = 1.0
 script = ExtResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
-shape = SubResource( 1 )
+[node name="HeadCollisionShape2D" type="CollisionShape2D" parent="Head"]
+shape = SubResource( 3 )
 
 [node name="HeadControl" type="KinematicBody2D" parent="."]
 input_pickable = true
 collision_layer = 8
-collision_mask = 9
+collision_mask = 11
 script = ExtResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadControl"]
-shape = SubResource( 1 )
+[node name="HeadControlCollisionShape2D" type="CollisionShape2D" parent="HeadControl"]
+shape = SubResource( 4 )
 
 [node name="TailControl" type="KinematicBody2D" parent="."]
 input_pickable = true
 collision_layer = 8
-collision_mask = 9
+collision_mask = 11
 script = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TailControl"]
-shape = SubResource( 1 )
+[node name="TailCollisionShape2D" type="CollisionShape2D" parent="TailControl"]
+shape = SubResource( 5 )
 
 [node name="Tail" type="KinematicBody2D" parent="."]
 input_pickable = true
@@ -45,12 +58,15 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource( 4 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tail"]
-shape = SubResource( 1 )
+[node name="TailCollisionShape2D" type="CollisionShape2D" parent="Tail"]
+shape = SubResource( 6 )
 
-[node name="PriorityLabel" type="Label" parent="."]
+[node name="PriorityLabel" type="Label" parent="Tail"]
 margin_right = 40.0
-margin_bottom = 14.0
+margin_bottom = 18.0
+mouse_filter = 1
+custom_fonts/font = SubResource( 2 )
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -58,6 +74,8 @@ __meta__ = {
 [node name="TransitionEquation" type="Label" parent="."]
 margin_right = 40.0
 margin_bottom = 14.0
+mouse_filter = 1
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -65,9 +83,20 @@ __meta__ = {
 [connection signal="mouse_entered" from="Head" to="Head" method="_on_Head_mouse_entered"]
 [connection signal="mouse_exited" from="Head" to="Head" method="_on_Head_mouse_exited"]
 [connection signal="move" from="Head" to="." method="_on_Head_move"]
+[connection signal="need_redraw" from="Head" to="." method="_on_Head_need_redraw"]
 [connection signal="mouse_entered" from="HeadControl" to="HeadControl" method="_on_HeadControl_mouse_entered"]
 [connection signal="mouse_exited" from="HeadControl" to="HeadControl" method="_on_HeadControl_mouse_exited"]
+[connection signal="move" from="HeadControl" to="." method="_on_HeadControl_move"]
+[connection signal="need_redraw" from="HeadControl" to="." method="_on_HeadControl_need_redraw"]
 [connection signal="mouse_entered" from="TailControl" to="TailControl" method="_on_TailControl_mouse_entered"]
 [connection signal="mouse_exited" from="TailControl" to="TailControl" method="_on_TailControl_mouse_exited"]
+[connection signal="move" from="TailControl" to="." method="_on_TailControl_move"]
+[connection signal="need_redraw" from="TailControl" to="." method="_on_TailControl_need_redraw"]
 [connection signal="mouse_entered" from="Tail" to="Tail" method="_on_Tail_mouse_entered"]
 [connection signal="mouse_exited" from="Tail" to="Tail" method="_on_Tail_mouse_exited"]
+[connection signal="move" from="Tail" to="." method="_on_Tail_move"]
+[connection signal="need_redraw" from="Tail" to="." method="_on_Tail_need_redraw"]
+[connection signal="mouse_entered" from="Tail/PriorityLabel" to="Tail/PriorityLabel" method="_on_Label_mouse_entered"]
+[connection signal="mouse_exited" from="Tail/PriorityLabel" to="Tail/PriorityLabel" method="_on_Label_mouse_exited"]
+[connection signal="mouse_entered" from="TransitionEquation" to="TransitionEquation" method="_on_Label_mouse_entered"]
+[connection signal="mouse_exited" from="TransitionEquation" to="TransitionEquation" method="_on_Label_mouse_exited"]

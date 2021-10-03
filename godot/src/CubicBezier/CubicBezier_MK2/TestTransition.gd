@@ -9,7 +9,7 @@ func _ready() -> void:
 func _on_DebugTimer_timeout():
 	var aTransition = pl_Transition.instance()
 	add_child(aTransition)
-	var node_positions : Array = [Vector2(50,50),Vector2(100,100),Vector2(150,100),Vector2(200,200)]
+	var node_positions : Array = [Vector2(50,50),Vector2(100,100),Vector2(150,150),Vector2(200,200)]
 	#aTransition.setup(0,Vector2(50,50),Vector2(100,100),Vector2(150,100),Vector2(200,200))
 	aTransition.setup(0,node_positions)
 	
