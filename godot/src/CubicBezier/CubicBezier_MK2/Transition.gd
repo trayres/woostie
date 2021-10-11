@@ -6,6 +6,7 @@ var transition_is_selected = false
 onready var mouse_is_near = false
 var priority : int = 0
 var transition_eqn : String = ""
+var is_loopback : bool = false
 
 # TODO: Fill in placeholders
 signal move_transition_anchor(transition_idx, node_idx, start_position, final_position)
@@ -57,6 +58,15 @@ func _process(delta):
 	else:
 		mouse_is_near = false
 		update()
+		
+	if $Head.attached_state==$Tail.attached_state:
+		if is_loopback==false:
+			is_loopback=true # Written this way so the transition 'edge' only fires once
+		if is_loopback==true:
+			pass
+	else:
+		is_loopback = false
+		
 		
 func _input(event: InputEvent) -> void:
 	if  event is InputEventMouseButton:
@@ -226,4 +236,9 @@ func _on_Tail_move(node_idx, start_position_of_drag, final_position_of_drag) -> 
 	update_curve()
 	update()
 
+func move_controls(rel_vec) -> void:
+	$HeadControl.position += rel_vec
+	$TailControl.position += rel_vec
+	update_curve()
+	update()
 
