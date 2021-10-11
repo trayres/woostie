@@ -3,11 +3,12 @@ extends Node2D
 # Commands
 var AddStateCommand  = preload("res://src/Commands/AddStateCommand.gd")
 var MoveStateCommand = preload("res://src/Commands/MoveStateCommand.gd")
-var AddTransitionCommand = preload("res://src/Commands/AddTransition.gd")
+var AddTransitionCommand = preload("res://src/Commands/AddTransitionCommand.gd")
 var KineticState = preload("res://src/KineticState/Kinetic State.tscn")
 var KineticTransitionAnchor = preload("res://src/KineticTransitionAnchor/Kinetic Transition Anchor.tscn")
 var Transition = preload("res://src/CubicBezier/CubicBezier_MK1/Transition.tscn")
-var next_state_index : int = 0 #just an upcounter
+var next_state_index    : int = 0 # just an upcounter
+var next_transition_idx : int = 0 # just an upcounter
 
 # Temporary Transition Anchor Points
 var pts : Array 
@@ -113,14 +114,6 @@ func redo():
 		reparent(node_to_pop,$UndoStack)
 	else:
 		print("Redo stack empty!")
-	
-func add_transition_anchor(position:Vector2) -> KinematicBody2D:
-	var a_transition_anchor = KineticTransitionAnchor.instance()
-	a_transition_anchor.set_position(position)
-	a_transition_anchor.input_pickable=true
-	a_transition_anchor.connect("detach",self,"transition_anchor_detatch")
-	$Transitions.add_child(a_transition_anchor)
-	return a_transition_anchor
 
 # Set a state as selected
 func set_state_selected(idx:int)->void:
@@ -167,9 +160,8 @@ func _input(event):
 			if event.button_index == BUTTON_LEFT and event.pressed:
 				if pts.size()==3:
 					pts.append(mouse_xy_current)
-					print("The points chosen for anchors:")
-					for apt in pts:
-						print("point:"+str(apt))
+					add_transition(next_transition_idx,pts)
+					next_transition_idx += 1
 					pts.clear()
 					change_state(SYS_STATE.IDLE)
 				else:
@@ -177,19 +169,23 @@ func _input(event):
 					change_state(SYS_STATE.ADDING_TRANSITION)
 	
 func _on_DebugTimer_timeout() -> void:
-	add_state(Vector2(50,50))
-	add_state(Vector2(250,350))
-	add_state(Vector2(550,550))
+	#add_state(Vector2(50,50))
+	#add_state(Vector2(250,350))
+	#add_state(Vector2(550,550))
 	#add_transition_anchor(Vector2(100,100))
-	var aTransition = AddTransitionCommand.new()
-	# _pts = <<
-	# FIXME: This will result in an error.
-	# TODO: Finish mock-up of transition command.
-	var dbg_transition_pts = [Vector2(600,600),Vector2(650,650),Vector2(700,650),Vector2(750,600)]
-	aTransition.setup(self,$States,$Transitions,dbg_transition_pts,1)
-	aTransition.do()
-	
-	
+	#var aTransition = AddTransitionCommand.new()
+	#var dbg_transition_pts = [Vector2(600,600),Vector2(650,650),Vector2(700,650),Vector2(750,600)]
+	#aTransition.setup(self,$States,$Transitions,dbg_transition_pts,1)
+	#aTransition.do()
+	pass
+
+# This is where the "lifting" of adding a transition takes places	
+func add_transition(transition_idx,node_positions)->void:
+	var aTransitionCmd = AddTransitionCommand.new()	
+	aTransitionCmd.setup( self, $States, $Transitions, node_positions, transition_idx)
+	aTransitionCmd.do()
+	# Add it to the undo stack
+	$UndoStack.add_child(aTransitionCmd)
 	
 func add_state_cmd() -> void:
 	change_state(SYS_STATE.ADDING_STATE)
@@ -202,7 +198,7 @@ func add_transition_cmd() -> void:
 
 func get_mouse_pt():
 	mouse_xy_current = get_global_mouse_position()
-	print(str(mouse_xy_current))
+	#print(str(mouse_xy_current))
 	$"CanvasLayer/Status Bar".set_MousePosLabel(mouse_xy_current)
 	
 func _draw() -> void:
@@ -241,7 +237,7 @@ func change_state(next_state) -> void:
 
 # From the UI layer's checkbox for 'Force Show Transition Anchors'
 func show_transition_achors_cmd(show_transition_achors : bool)->void:
-	print("SHOW TRANSITION ANCHORS?:"+str(show_transition_achors))
+	#print("SHOW TRANSITION ANCHORS?:"+str(show_transition_achors))
 	if show_transition_achors:
 		for atransition in $Transitions.get_children():
 			atransition.set_force_show_transition_anchors()
@@ -252,14 +248,35 @@ func show_transition_achors_cmd(show_transition_achors : bool)->void:
 
 # From $"Set State"'s ACCEPT button
 func _on_Set_State_Name_set_state_name(idx,name) -> void:
-	print("SET IDX:"+str(idx)+" with NAME:" + name)
+	#print("SET IDX:"+str(idx)+" with NAME:" + name)
 	for astate in $States.get_children():
 		if astate.idx==idx:
 			astate.setup_state(name)
 
 func transition_anchor_moved(transition_idx, node_idx, start_position, final_position)->void:
-	print("Transition anchor moved event fired")
+	pass
+	#print("Transition anchor moved event fired")
+	#print("transition_idx:"+str(transition_idx))
+	#print("node_idx:"+str(node_idx))
+	#print("start_position:"+str(start_position))
+	#print("final_position:"+str(final_position))
+	
+func change_transition_properties(transition_idx,priority,transition_eqn)->void:
+	print("Setting up transition equation!")
+	$"CanvasLayer/Set Transition Equation".setup(transition_idx,priority,transition_eqn)
+	$"CanvasLayer/Set Transition Equation".popup_centered()
+
+
+func _on_Set_Transition_Equation_set_transition_priority_and_eqn(transition_idx, priority, transition_eqn) -> void:
+	print("_on_Set_Transition_Equation_set_transition_priority_and_eqn")
 	print("transition_idx:"+str(transition_idx))
-	print("node_idx:"+str(node_idx))
-	print("start_position:"+str(start_position))
-	print("final_position:"+str(final_position))
+	print("priority:"+str(priority))
+	print("transition_eqn:"+str(transition_eqn))
+	for atransition in $Transitions.get_children():
+		if atransition.transition_idx == transition_idx:
+			atransition.set_priority_and_transition_eqn(priority,transition_eqn)
+
+
+func _on_MenuBar_generate_code() -> void:
+	# TODO: Add code generation
+	$CanvasLayer/CodeGen.popup_centered()

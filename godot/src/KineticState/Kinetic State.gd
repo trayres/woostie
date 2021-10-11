@@ -43,9 +43,15 @@ func _process(delta: float) -> void:
 		# If we're not going to collide, just go there
 		if not test_move(Transform2D(transform), rel_vec, true):
 			set_position(final_pos)
-			for anchor in transition_anchors:
+			#for anchor in transition_anchors:
+			#	anchor.position += rel_vec
+			#	anchor.update()
+			for anchor in transition_anchors_head:
 				anchor.position += rel_vec
-				anchor.update()
+				anchor._need_update()
+			for anchor in transition_anchors_tail:
+				anchor.position += rel_vec
+				anchor._need_update()				
 		# But if we are going to collide, let's see the collision
 		else:
 			#move_and_slide(final_vec)
@@ -65,6 +71,7 @@ func _process(delta: float) -> void:
 				if not transition_anchors_head.has(collider):
 					transition_anchors_head.append(collider)
 					collider.attached_state = self # Tell the transition anchor the state we're attached to, so we have a reference to it.
+					collider._need_update()
 				for anchor in transition_anchors_head:
 					anchor.move_head(collision.travel)
 					anchor.move_head(collision.remainder)
@@ -80,6 +87,7 @@ func _process(delta: float) -> void:
 				if not transition_anchors_tail.has(collider):
 					transition_anchors_tail.append(collider)
 					collider.attached_state = self # Tell the transition anchor the state we're attached to, so we have a reference to it.
+					collider._need_update()
 				for anchor in transition_anchors_tail:
 					anchor.move_tail(collision.travel)
 					anchor.move_tail(collision.remainder)					
@@ -128,24 +136,24 @@ func _draw():
 
 func _on_Kinematic_State_mouse_entered() -> void:
 	mouse_in_state = true
-	print("mouse_in_state:true")
+	#print("mouse_in_state:true")
 
 
 func _on_Kinematic_State_mouse_exited() -> void:
 	mouse_in_state = false
-	print("mouse_in_state:false")
+	#print("mouse_in_state:false")
 
 func _on_Kinematic_State_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if  event is InputEventMouseButton:
 		if event.button_index==BUTTON_LEFT:
 			if event.is_pressed():
 				selected = true
+		if event.button_index==BUTTON_RIGHT:
 			if event.is_doubleclick():
 				print("Double Click!")
 				#$"Set State Name".setup(state_name,idx)
 				#$"Set State Name".popup_centered()	
 				emit_signal("set_state_name",state_name,idx)
-
 
 
 

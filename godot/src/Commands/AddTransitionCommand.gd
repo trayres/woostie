@@ -18,14 +18,15 @@ func setup(controller, states, transitions, node_positions, idx):
 	self.idx = idx
 func do():
 	# Create the transition
-	var created_transition = Transition.instance()
+	created_transition = Transition.instance()
+	# Add it to the controller's transition list
+	transitions.add_child(created_transition)	
 	# Setup the transition
 	created_transition.setup(self.idx,self.node_positions)
-	# Add it to the controller's transition list
-	transitions.add_child(created_transition)
+
 	# Connect the signals the transition emits
-	# TODO: Finish
 	var result = created_transition.connect("move_transition_anchor",controller,"transition_anchor_moved")
+	result = created_transition.connect("change_transition_properties",controller,"change_transition_properties")
 	
 func undo():
 	created_transition.queue_free()
