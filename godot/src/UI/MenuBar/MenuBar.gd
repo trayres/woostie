@@ -6,6 +6,8 @@ signal undo
 signal redo
 signal add_state
 signal add_transition
+signal generate_code
+
 var    l_show_transition_anchors : bool = false
 signal show_transition_achors(l_show_transition_anchors)
 
@@ -38,4 +40,6 @@ func _on_ToolsMenu_pressed(id) -> void:
 		l_show_transition_anchors = not l_show_transition_anchors
 		$HBoxContainer/ToolsMenu.get_popup().set_item_checked(2,l_show_transition_anchors)
 		emit_signal("show_transition_achors",l_show_transition_anchors)
+	elif id==3:
+		emit_signal("generate_code")
 

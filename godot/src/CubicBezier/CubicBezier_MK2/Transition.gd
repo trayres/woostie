@@ -4,10 +4,12 @@ onready var curve = Curve2D.new()
 onready var curve_pts
 var transition_is_selected = false
 onready var mouse_is_near = false
+var priority : int = 0
+var transition_eqn : String = ""
 
 # TODO: Fill in placeholders
 signal move_transition_anchor(transition_idx, node_idx, start_position, final_position)
-signal change_transition_properties # Emitted on double click
+signal change_transition_properties(transition_idx,priority,transition_eqn) # Emitted on double click
 
 func _ready():
 		var p0_in = Vector2.ZERO # This isn't used for the first curve
@@ -21,8 +23,8 @@ func _ready():
 	
 func _draw() -> void:
 	if transition_is_selected == true:
-		draw_line($P0.position,$P1.position,Color.black,2.0)
-		draw_line($P2.position,$P3.position,Color.black,2.0)
+		draw_line($Head.position,$HeadControl.position,Color.black,2.0)
+		draw_line($TailControl.position,$Tail.position,Color.black,2.0)
 	curve_pts = curve.tessellate()
 	var line_color
 	if mouse_is_near == true or transition_is_selected == true:
@@ -34,22 +36,46 @@ func _draw() -> void:
 		draw_line(curve_pts[idx],curve_pts[idx+1],line_color,5.0,true)
 		
 	# If the line is selected, draw its control points
-	if transition_is_selected == true:
-		draw_circle($Head.position,5.0,Color(1.0,0,0,1.0))
-		draw_circle($HeadControl.position,5.0,Color(0,1.0,0,1.0))
-		draw_circle($TailControl.position,5.0,Color(0,1.0,0,1.0))
-		draw_circle($Tail.position,5.0,Color(1.0,0,0,1.0))
+	#if transition_is_selected == true:
+	#	draw_circle($Head.position,5.0,Color(1.0,0,0,1.0))
+	#	draw_circle($HeadControl.position,5.0,Color(0,1.0,0,1.0))
+	#	draw_circle($TailControl.position,5.0,Color(0,1.0,0,1.0))
+	#	draw_circle($Tail.position,5.0,Color(1.0,0,0,1.0))
 
 	draw_arrowhead(30, 30, $HeadControl.position,$Head.position) 		
 func _process(delta):
+	if not transition_is_selected:
+		$HeadControl.hide()
+		$TailControl.hide()
+	else:
+		$HeadControl.show()
+		$TailControl.show()
+	
 	if get_distance_to_curve() < 8.0:
 		mouse_is_near = true
 		update()
 	else:
 		mouse_is_near = false
 		update()
+		
+func _input(event: InputEvent) -> void:
+	if  event is InputEventMouseButton:
+		if event.button_index==BUTTON_LEFT:
+				if event.is_pressed():
+					if mouse_is_near:
+						transition_is_selected = true
+					else:
+						transition_is_selected = false
+				if event.is_doubleclick():
+					if mouse_is_near:
+						emit_signal("change_transition_properties",transition_idx,priority,transition_eqn)
+			
 
-#func setup(transition_idx,head_pos,head_ctrl_pos,tail_ctrl_pos,tail_pos):
+# This 'setup' function is called by the AddTransitionCommand object
+# It knows the positions of the nodes, and the index
+# But it has to fill in defaults for the priority of the transition,
+# And it has to assume the transition equation is null (the user wants to add 
+# a transition, that means we default to taking that path - no equation to check.
 func setup(transition_idx,node_positions):
 	self.transition_idx = transition_idx
 	$Head.global_position = node_positions[0]
@@ -61,12 +87,25 @@ func setup(transition_idx,node_positions):
 	$Tail.global_position=node_positions[3]
 	$Tail.node_idx = 3
 	# Position the TransitionEquation on the midpoint
-	$TransitionEquation.text = "A+B"
+	$TransitionEquation.text = transition_eqn
 	
 	# Position the PriorityLabel right where the Tail node is
-	$Tail/PriorityLabel.text = str(0)
+	$Tail/PriorityLabel.text = str(priority)
 	$Tail/PriorityLabel.set_global_position(node_positions[3])
-# This function is so that nodes can be moved externally (via the command pattern)
+	
+	update_curve()
+	# Position the Transition Equation roughly in the middle of the curve
+	var num_curve_pts = len(curve_pts)
+	$TransitionEquation.set_global_position(curve_pts[num_curve_pts/2])	
+	update()
+	
+func set_priority_and_transition_eqn(priority,transition_eqn)->void:
+	self.priority = priority
+	self.transition_eqn = transition_eqn
+	$Tail/PriorityLabel.text = str(priority)
+	$TransitionEquation.text = transition_eqn
+		
+
 # This function is so that nodes can be moved externally (via the command pattern)
 func move_node(idx,final_position)->void:
 	for achild in get_children():
@@ -77,12 +116,12 @@ func move_node(idx,final_position)->void:
 
 
 func set_force_show_transition_anchors()->void:
-	pass
+	print("Set force show transition anchors command!")
 func clear_force_show_transition_anchors()->void:
 	pass
 
 func get_distance_to_curve():
-	var curve_pts = curve.tessellate()
+	#var curve_pts = curve.tessellate()
 	var mouse_xy_current = get_global_mouse_position()
 	var it = 0
 	var distance
@@ -140,25 +179,30 @@ func update_curve():
 	curve.set_point_position(0,$Head.position)
 	curve.set_point_out(0,$HeadControl.position - $Head.position)
 	curve.set_point_position(1,$Tail.position)
-	curve.set_point_in(1,$TailControl.position - $Tail.position)	
+	curve.set_point_in(1,$TailControl.position - $Tail.position)
+	curve_pts = curve.tessellate()
 
 # The 'need redraw' signals indicate something was moved via a drag
 # There are 4 of them, one for each node.
 func _on_Head_need_redraw() -> void:
 	update_curve()
+	transition_is_selected = true
 	update()
-	print("Head update")
+	#print("Head update")
 	
 func _on_HeadControl_need_redraw() -> void:
 	update_curve()
+	transition_is_selected = true
 	update()	
 	
 func _on_TailControl_need_redraw() -> void:
 	update_curve()
+	transition_is_selected = true
 	update()
 	
 func _on_Tail_need_redraw() -> void:
 	update_curve()
+	transition_is_selected = true
 	update()
 	
 func _on_Head_move(node_idx, start_position_of_drag, final_position_of_drag) -> void:

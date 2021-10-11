@@ -3,10 +3,11 @@
 [ext_resource path="res://src/UI/Popups/Set State Name.gd" type="Script" id=1]
 
 [node name="Set State Name" type="WindowDialog"]
+visible = true
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 355.0
-margin_bottom = 57.0
+margin_bottom = 49.0
 window_title = "Set State Name"
 script = ExtResource( 1 )
 __meta__ = {
@@ -22,7 +23,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 margin_right = 354.0
-margin_bottom = 56.0
+margin_bottom = 48.0
 
 [node name="SelectedStateName" type="LineEdit" parent="MarginContainer/VBoxContainer"]
 margin_right = 354.0

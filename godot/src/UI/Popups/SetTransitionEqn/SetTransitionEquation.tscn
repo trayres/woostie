@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/UI/Popups/SetTransitionEqn/SetTransitionEquation.gd" type="Script" id=1]
+
+[node name="Set Transition Equation" type="WindowDialog"]
+margin_top = 2.0
+margin_right = 454.0
+margin_bottom = 112.0
+window_title = "Setup Transition"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -1.0
+margin_bottom = 8.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 445.0
+margin_bottom = 110.0
+
+[node name="PriorityHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 445.0
+margin_bottom = 24.0
+
+[node name="PriorityLabel" type="Label" parent="MarginContainer/VBoxContainer/PriorityHBox"]
+margin_top = 5.0
+margin_right = 50.0
+margin_bottom = 19.0
+text = "Priority:"
+
+[node name="PriorityLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/PriorityHBox"]
+margin_left = 54.0
+margin_right = 445.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="TransEqnHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 28.0
+margin_right = 445.0
+margin_bottom = 52.0
+
+[node name="TransitionEqnLabel" type="Label" parent="MarginContainer/VBoxContainer/TransEqnHBox"]
+margin_top = 5.0
+margin_right = 126.0
+margin_bottom = 19.0
+text = "Transition Equation:"
+
+[node name="TransitionEqnLineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/TransEqnHBox"]
+margin_left = 130.0
+margin_right = 445.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="PlsValidMsg" type="Label" parent="MarginContainer/VBoxContainer"]
+margin_top = 56.0
+margin_right = 445.0
+margin_bottom = 70.0
+text = "Please enter valid priority and transition equation before accepting"
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 74.0
+margin_right = 445.0
+margin_bottom = 94.0
+
+[node name="Accept" type="Button" parent="MarginContainer/VBoxContainer/ButtonsHBox"]
+margin_right = 220.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/ButtonsHBox"]
+margin_left = 224.0
+margin_right = 445.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Cancel"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonsHBox/Accept" to="." method="_on_Accept_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonsHBox/Cancel" to="." method="_on_Cancel_pressed"]

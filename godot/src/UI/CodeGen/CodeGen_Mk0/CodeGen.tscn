@@ -1,0 +1,220 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/UI/CodeGen/CodeGen_Mk0/CodeGen.gd" type="Script" id=1]
+
+[node name="CodeGen" type="WindowDialog"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -493.0
+margin_top = -249.5
+margin_right = 493.0
+margin_bottom = 249.5
+window_title = "Generated Code"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 986.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+size_flags_vertical = 0
+
+[node name="SaveToFileBtn" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 491.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Save To File"
+
+[node name="CopyToClipBrdBtn" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 495.0
+margin_right = 986.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Copy To Clipboard"
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+margin_top = 24.0
+margin_right = 986.0
+margin_bottom = 499.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Verilog" type="Tabs" parent="VBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/TabContainer/Verilog"]
+margin_left = -1.0
+margin_right = 981.0
+margin_bottom = 442.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "VHDL
+VHDL
+VHDL VHDL
+VHDL VHDL
+VHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDL"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VHDL" type="Tabs" parent="VBoxContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/TabContainer/VHDL"]
+margin_right = 976.0
+margin_bottom = 443.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "VHDL
+VHDL
+VHDL VHDL
+VHDL VHDL
+VHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDLVHDL
+VHDL
+VHDL VHDL
+VHDL VHDL"
+__meta__ = {
+"_edit_use_anchors_": false
+}

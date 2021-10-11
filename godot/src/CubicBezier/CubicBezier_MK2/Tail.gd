@@ -38,11 +38,9 @@ func _process(delta: float) -> void:
 		var will_collide : bool = test_move(Transform2D(transform), rel_vec, true)
 		if not will_collide:
 			position += rel_vec
-			# Move the priority label too
-			#$PriorityLabel.rect_global_position += rel_vec
 			emit_signal("need_redraw")
 			if attached_state != null:
-				attached_state.transition_anchors.erase(self)
+				attached_state.transition_anchors_tail.erase(self)
 				attached_state = null
 				emit_signal("detach",node_idx) # send node_idx as the detach_id, must be handled by Transition object
 				update()
@@ -54,8 +52,8 @@ func _process(delta: float) -> void:
 				if collider.is_in_group("Kinetic State"):
 					attached_state = collider
 					update()
-					if not collider.transition_anchors.has(self):
-						collider.transition_anchors.append(self)
+					if not collider.transition_anchors_tail.has(self):
+						collider.transition_anchors_tail.append(self)
 	else:
 		if dragging: # We're done dragging, so emit the final "we moved" signal
 			emit_signal("move",node_idx,start_position_of_drag,self.global_position)
@@ -73,3 +71,7 @@ func _on_Tail_mouse_exited() -> void:
 func move_tail(rel_vec) -> void:
 	position += rel_vec
 	emit_signal("need_redraw")
+	
+func _need_update() -> void:
+	emit_signal("need_redraw")
+	update()
