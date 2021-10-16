@@ -10,6 +10,7 @@ var transition_anchors : Array = []
 var transition_anchors_head : Array = []
 var transition_anchors_tail : Array = []
 var start_position_of_drag : Vector2
+var is_reset_state : bool = false
 
 signal move(state, start_position, final_position) # Emitted when done with a drag
 signal set_state_name(state_name,idx)
@@ -124,8 +125,17 @@ func clear_selected() -> void:
 	selected = false
 	update()
 	
+func set_as_reset() -> void:
+	is_reset_state = true
+	update()
+
+func clear_as_reset() -> void:
+	is_reset_state = false
+	update()	
 
 func _draw():
+	if is_reset_state:
+		draw_circle(Vector2(0.0,0.0),58.0,Color(0.77,0.33,0.22))
 	draw_circle(Vector2(0.0,0.0),50.0,Color(0.22,0.77,0.22))
 	if selected:
 		var sel_rect : Rect2

@@ -33,6 +33,10 @@ func _ready():
 	
 	#add_state(Vector2(300,300))
 	#yield(get_tree().create_timer(1.0), "timeout")
+	#for astate in $States.get_children():
+	#	astate.set_as_reset()
+	
+	#yield(get_tree().create_timer(1.0), "timeout")
 	#set_state_selected(0)
 	#yield(get_tree().create_timer(1.0), "timeout")
 	#clear_states_selected()
@@ -278,5 +282,21 @@ func _on_Set_Transition_Equation_set_transition_priority_and_eqn(transition_idx,
 
 
 func _on_MenuBar_generate_code() -> void:
+	var _str : String
+	for astate in $States.get_children():
+		
+		_str += "State:"+astate.state_name+"\n"
+		_str += "Printing transition connections to this state:\n"
+		
+		if astate.transition_anchors_head.size() > 0:
+			for head_connection in astate.transition_anchors_head:
+				_str += "State head transition index:"+str(head_connection.get_transition_idx())+"\n"
+		if astate.transition_anchors_tail.size() > 0:
+			for tail_connection in astate.transition_anchors_tail:
+				_str += "State tail transition index:"+str(tail_connection.get_transition_idx())+"\n"
+			
+	print("Printing _str:\n"+_str)
+	#for atransition in $Transitions.get_children():
+	#	print("Transition:"+str(atransition.transition_idx))
 	# TODO: Add code generation
 	$CanvasLayer/CodeGen.popup_centered()

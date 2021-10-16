@@ -7,6 +7,7 @@ onready var mouse_is_near = false
 var priority : int = 0
 var transition_eqn : String = ""
 var is_loopback : bool = false
+onready var get_transition_idx_ref = funcref(self,'get_transition_idx')
 
 # TODO: Fill in placeholders
 signal move_transition_anchor(transition_idx, node_idx, start_position, final_position)
@@ -90,12 +91,14 @@ func setup(transition_idx,node_positions):
 	self.transition_idx = transition_idx
 	$Head.global_position = node_positions[0]
 	$Head.node_idx = 0
+	$Head.get_transition_idx_ref = get_transition_idx_ref
 	$HeadControl.global_position=node_positions[1]
 	$HeadControl.node_idx = 1
 	$TailControl.global_position=node_positions[2]
 	$TailControl.node_idx = 2
 	$Tail.global_position=node_positions[3]
 	$Tail.node_idx = 3
+	$Tail.get_transition_idx_ref = get_transition_idx_ref
 	# Position the TransitionEquation on the midpoint
 	$TransitionEquation.text = transition_eqn
 	
@@ -242,3 +245,5 @@ func move_controls(rel_vec) -> void:
 	update_curve()
 	update()
 
+func get_transition_idx() -> int:
+	return transition_idx
