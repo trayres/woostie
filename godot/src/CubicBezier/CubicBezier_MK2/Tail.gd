@@ -9,6 +9,8 @@ var start_position_of_drag : Vector2
 
 var attached_state  : KinematicBody2D = null
 
+var get_transition_idx_ref
+
 #########
 # Signals
 # Detach is issued when a transition anchor is moved in such a way as to indicate
@@ -75,3 +77,6 @@ func move_tail(rel_vec) -> void:
 func _need_update() -> void:
 	emit_signal("need_redraw")
 	update()
+
+func get_transition_idx()->int:
+	return get_transition_idx_ref.call_func()

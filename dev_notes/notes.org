@@ -16,3 +16,7 @@
   We need to replace the MK1 transition object added on build with the MK2 transition object, and then determine what is missing. It's quite a lot - the CubicBezier_MK0 actually did a bit, but didn't make proper use of signals and architecture.
   Originally the idea was to mock up the instantiation of the transition object via the command pattern, but the command pattern has a reference to the controller (so that we can hook up the signals from the created transition object!)
   So rather than doing it as a mockup, I'll just inject the CubicBezier_MK2 directly into the Woostie project, and debug live as we go.
+
+* TODO:
+  I need to change the emission of the signal when you break a transition anchor away from a state
+  so that it's properly handled by the controller - this will allow the controller to do some of the stuff the kineticstate is doing, which will improve the overall readability. Currently the KineticState has some "funky" handling that 'reaches into' the transition anchor - it's ugly, but if we redirect to the controller, then have the controller do the disconnect logic, then we can simplify the kinetic state.
