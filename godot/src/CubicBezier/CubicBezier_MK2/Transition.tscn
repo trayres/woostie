@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK2/Head.gd" type="Script" id=1]
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK2/TailControl.gd" type="Script" id=2]
@@ -11,7 +11,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.0
 
-[sub_resource type="CircleShape2D" id=6]
+[sub_resource type="CircleShape2D" id=2]
 
 [sub_resource type="CircleShape2D" id=3]
 
@@ -19,7 +19,15 @@ radius = 4.0
 radius = 4.0
 
 [sub_resource type="DynamicFont" id=5]
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
 font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFontData" id=6]
+font_path = "res://assets/Inconsolata-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=7]
+font_data = SubResource( 6 )
 
 [node name="Transition" type="Node2D"]
 script = ExtResource( 5 )
@@ -41,7 +49,7 @@ collision_mask = 8
 script = ExtResource( 3 )
 
 [node name="HeadControlCollisionShape2D" type="CollisionShape2D" parent="HeadControl"]
-shape = SubResource( 6 )
+shape = SubResource( 2 )
 
 [node name="TailControl" type="KinematicBody2D" parent="."]
 input_pickable = true
@@ -66,6 +74,7 @@ margin_right = 40.0
 margin_bottom = 18.0
 mouse_filter = 1
 custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -75,6 +84,8 @@ __meta__ = {
 margin_right = 40.0
 margin_bottom = 14.0
 mouse_filter = 1
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false

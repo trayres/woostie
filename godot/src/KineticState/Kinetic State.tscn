@@ -1,14 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/KineticState/Kinetic State.gd" type="Script" id=1]
+[ext_resource path="res://src/KineticState/KineticStateLabel.gd" type="Script" id=2]
 [ext_resource path="res://src/KineticState/GravityWell.gd" type="Script" id=3]
 [ext_resource path="res://assets/Inconsolata-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://src/KineticState/StateActionsLabel.gd" type="Script" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 50.0
 
 [sub_resource type="DynamicFont" id=2]
-size = 24
+use_filter = true
 font_data = ExtResource( 4 )
 
 [sub_resource type="CircleShape2D" id=3]
@@ -23,7 +25,7 @@ script = ExtResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="Label" type="Label" parent="."]
+[node name="StateNameLabel" type="Label" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -32,8 +34,10 @@ margin_left = -20.0
 margin_top = -13.0
 margin_right = 20.0
 margin_bottom = 13.0
+mouse_filter = 1
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -48,7 +52,29 @@ script = ExtResource( 3 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GravityWell"]
 shape = SubResource( 3 )
 
+[node name="StateActionsLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -38.5
+margin_right = 38.5
+margin_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+text = "reg_a <= b;
+reg_c <= d;
+comb_e = f;
+comb_g = h;"
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="input_event" from="." to="." method="_on_Kinematic_State_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_Kinematic_State_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_Kinematic_State_mouse_exited"]
+[connection signal="mouse_entered" from="StateNameLabel" to="StateNameLabel" method="_on_Label_mouse_entered"]
+[connection signal="mouse_exited" from="StateNameLabel" to="StateNameLabel" method="_on_Label_mouse_exited"]
 [connection signal="area_shape_entered" from="GravityWell" to="." method="_on_GravityWell_area_shape_entered"]
+[connection signal="mouse_entered" from="StateActionsLabel" to="StateActionsLabel" method="_on_StateActionsLabel_mouse_entered"]
+[connection signal="mouse_exited" from="StateActionsLabel" to="StateActionsLabel" method="_on_StateActionsLabel_mouse_exited"]

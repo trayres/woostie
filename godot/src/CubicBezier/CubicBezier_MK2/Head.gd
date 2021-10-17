@@ -75,6 +75,8 @@ func _on_Head_mouse_exited() -> void:
 func move_head(rel_vec) -> void:
 	position += rel_vec
 	emit_signal("need_redraw")
+	get_node("../HeadControl").position += rel_vec
+	update()
 	
 func _need_update() -> void:
 	emit_signal("need_redraw")

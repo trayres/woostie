@@ -73,6 +73,8 @@ func _on_Tail_mouse_exited() -> void:
 func move_tail(rel_vec) -> void:
 	position += rel_vec
 	emit_signal("need_redraw")
+	get_node("../TailControl").position += rel_vec
+	update()
 	
 func _need_update() -> void:
 	emit_signal("need_redraw")
