@@ -21,10 +21,9 @@ func _process(delta: float) -> void:
 		dragging = false			
 
 
-func _on_Label_mouse_entered() -> void:
+func _on_StateActionsLabel_mouse_entered() -> void:
 	mouse_in_label = true
-	print("Mouse in label")
 
-func _on_Label_mouse_exited() -> void:
+
+func _on_StateActionsLabel_mouse_exited() -> void:
 	mouse_in_label = false
-	print("Mouse exit label")

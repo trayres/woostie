@@ -22,14 +22,12 @@ func _on_FileMenu_pressed(id) -> void:
 
 func _on_EditMenu_pressed(id) -> void:
 	print("editmenu id:"+str(id))
-	if id==0:
-		pass
-	elif id==1:
-		pass
-	elif id==2:
+	if id==0: # Undo
 		emit_signal("undo")
-	elif id==3:
+	elif id==1: # Redo
 		emit_signal("redo")
+	elif id==2: # Delete
+		pass
 	
 func _on_ToolsMenu_pressed(id) -> void:
 	if id==0:

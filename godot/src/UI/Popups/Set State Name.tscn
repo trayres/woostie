@@ -3,7 +3,6 @@
 [ext_resource path="res://src/UI/Popups/Set State Name.gd" type="Script" id=1]
 
 [node name="Set State Name" type="WindowDialog"]
-visible = true
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 355.0

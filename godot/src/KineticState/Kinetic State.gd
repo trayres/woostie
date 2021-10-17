@@ -48,14 +48,16 @@ func _process(delta: float) -> void:
 			#	anchor.position += rel_vec
 			#	anchor.update()
 			for anchor in transition_anchors_head:
-				anchor.position += rel_vec
-				anchor._need_update()
+				anchor.move_head(rel_vec)
+				#anchor.position += rel_vec
+				#anchor._need_update()
 			for anchor in transition_anchors_tail:
-				anchor.position += rel_vec
-				anchor._need_update()
-			for anchor in transition_anchors_head: # Add the loopback condition
-				if anchor.get_parent().is_loopback:
-					anchor.get_parent().move_controls(rel_vec)						
+				anchor.move_tail(rel_vec)
+				#anchor.position += rel_vec
+				#anchor._need_update()
+			#for anchor in transition_anchors_head: # Add the loopback condition
+			#	if anchor.get_parent().is_loopback:
+			#		anchor.get_parent().move_controls(rel_vec)						
 		# But if we are going to collide, let's see the collision
 		else:
 			#move_and_slide(final_vec)
@@ -96,10 +98,10 @@ func _process(delta: float) -> void:
 					anchor.move_head(collision.remainder)					
 				position += collision.remainder	
 				
-			for anchor in transition_anchors_head: # Add this loopback case. This is a bit goofy, and can be improved.
-				if anchor.get_parent().is_loopback:
-					anchor.get_parent().move_controls(collision.travel)
-					anchor.get_parent().move_controls(collision.remainder)						
+			#for anchor in transition_anchors_head: # Add this loopback case. This is a bit goofy, and can be improved.
+			#	if anchor.get_parent().is_loopback:
+			#		anchor.get_parent().move_controls(collision.travel)
+			#		anchor.get_parent().move_controls(collision.remainder)						
 			if collider.is_in_group("Kinetic State"):
 				pass
 	else:
@@ -112,10 +114,10 @@ func _process(delta: float) -> void:
 
 func setup_state(state_name : String):
 	self.state_name = state_name
-	$Label.text=state_name
-	var rect = $Label.rect_size
+	$StateNameLabel.text=state_name
+	var rect = $StateNameLabel.rect_size
 	var pos = -rect/2
-	$Label.rect_position = pos
+	$StateNameLabel.rect_position = pos
 	
 func set_selected()	-> void:
 	selected = true
