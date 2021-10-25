@@ -42,7 +42,8 @@ func _process(delta: float) -> void:
 		var rel_vec: Vector2 = final_pos - position	
 		var will_collide : bool = test_move(Transform2D(transform), rel_vec, true)
 		if not will_collide:
-			position += rel_vec
+			#position += rel_vec
+			move_head(rel_vec)
 			emit_signal("need_redraw")
 			if attached_state != null:
 				attached_state.transition_anchors_head.erase(self)

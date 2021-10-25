@@ -1,15 +1,20 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/UI/Setup/Setup.gd" type="Script" id=1]
+[ext_resource path="res://themes/setup_theme.tres" type="Theme" id=2]
 
 [node name="Setup" type="WindowDialog"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -243.0
-margin_top = -112.0
-margin_right = 243.0
-margin_bottom = 112.0
+margin_left = -345.5
+margin_top = -156.0
+margin_right = 345.5
+margin_bottom = 156.0
+theme = ExtResource( 2 )
+resizable = true
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -23,37 +28,225 @@ __meta__ = {
 }
 
 [node name="State Machine" type="Tabs" parent="TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = 36.0
-margin_bottom = 20.0
-
-[node name="Inputs" type="Tabs" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 32.0
+margin_top = 36.0
 margin_right = -4.0
 margin_bottom = -4.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/State Machine"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MachineNameHBoxContainer" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
+margin_right = 683.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TabContainer/State Machine/VBoxContainer/MachineNameHBoxContainer"]
+margin_top = 5.0
+margin_right = 144.0
+margin_bottom = 23.0
+text = "State Machine Name"
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/State Machine/VBoxContainer/MachineNameHBoxContainer"]
+margin_left = 148.0
+margin_right = 683.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+
+[node name="ClockHBoxContainer" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
+margin_top = 32.0
+margin_right = 683.0
+margin_bottom = 56.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TabContainer/State Machine/VBoxContainer/ClockHBoxContainer"]
+margin_top = 3.0
+margin_right = 40.0
+margin_bottom = 21.0
+size_flags_horizontal = 0
+text = "Clock"
+align = 2
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/State Machine/VBoxContainer/ClockHBoxContainer"]
+margin_left = 44.0
+margin_right = 73.0
+margin_bottom = 24.0
+
+[node name="ResetSignalHBoxContainer" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
+margin_top = 60.0
+margin_right = 683.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TabContainer/State Machine/VBoxContainer/ResetSignalHBoxContainer"]
+margin_top = 5.0
+margin_right = 96.0
+margin_bottom = 23.0
+size_flags_horizontal = 0
+text = "Reset Signal"
+align = 2
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/State Machine/VBoxContainer/ResetSignalHBoxContainer"]
+margin_left = 100.0
+margin_right = 683.0
+margin_bottom = 28.0
+size_flags_horizontal = 11
+
+[node name="ResetPolarityHBoxContainer" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
+margin_top = 92.0
+margin_right = 683.0
+margin_bottom = 116.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TabContainer/State Machine/VBoxContainer/ResetPolarityHBoxContainer"]
+margin_top = 3.0
+margin_right = 112.0
+margin_bottom = 21.0
+size_flags_horizontal = 0
+text = "Reset Polarity"
+align = 2
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/State Machine/VBoxContainer/ResetPolarityHBoxContainer"]
+margin_left = 116.0
+margin_right = 361.0
+margin_bottom = 24.0
+text = "Asynchronous, Positive Edge"
+items = [ "Asynchronous, Positive Edge", null, false, 0, null, "Asynchronous, Negative Edge", null, false, 1, null, "Synchronous, Positive Level", null, false, 2, null, "Synchronous, Negative Level", null, false, 3, null ]
+selected = 0
+
+[node name="ResetStateHBoxContainer" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
+margin_top = 120.0
+margin_right = 683.0
+margin_bottom = 144.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TabContainer/State Machine/VBoxContainer/ResetStateHBoxContainer"]
+margin_top = 3.0
+margin_right = 88.0
+margin_bottom = 21.0
+size_flags_horizontal = 0
+text = "Reset State"
+align = 2
+
+[node name="ResetStateOptionButton" type="OptionButton" parent="TabContainer/State Machine/VBoxContainer/ResetStateHBoxContainer"]
+margin_left = 92.0
+margin_right = 169.0
+margin_bottom = 24.0
+text = "State0"
+items = [ "State0", null, false, 0, null, "State1", null, false, 1, null, "State2", null, false, 2, null, "State3", null, false, 3, null ]
+selected = 0
+
+[node name="Inputs" type="Tabs" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 36.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Inputs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Inputs/ScrollContainer"]
+margin_right = 683.0
+margin_bottom = 227.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Inputs"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 4.00452
+margin_top = -42.4076
+margin_right = 152.005
+margin_bottom = -2.40759
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="AddInputBtn" type="Button" parent="TabContainer/Inputs/HBoxContainer"]
+margin_right = 84.0
+margin_bottom = 40.0
+text = "Add Input"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Delete" type="Button" parent="TabContainer/Inputs/HBoxContainer"]
+margin_left = 88.0
+margin_right = 148.0
+margin_bottom = 40.0
+text = "Delete"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Outputs" type="Tabs" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 32.0
+margin_top = 36.0
 margin_right = -4.0
 margin_bottom = -4.0
+
+[node name="AddOutputBtn" type="Button" parent="TabContainer/Outputs"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 6.67419
+margin_top = -26.6697
+margin_right = 90.6742
+margin_bottom = -2.66968
+text = "Add Output"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Delete" type="Button" parent="TabContainer/Outputs"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 104.948
+margin_top = -26.6697
+margin_right = 188.948
+margin_bottom = -2.66968
+text = "Delete"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="States" type="Tabs" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 32.0
+margin_top = 36.0
 margin_right = -4.0
 margin_bottom = -4.0
 
@@ -62,6 +255,9 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 32.0
+margin_top = 36.0
 margin_right = -4.0
 margin_bottom = -4.0
+
+[connection signal="pressed" from="TabContainer/Inputs/HBoxContainer/AddInputBtn" to="." method="_on_AddInputBtn_pressed"]
+[connection signal="pressed" from="TabContainer/Inputs/HBoxContainer/Delete" to="." method="_on_Delete_pressed"]
