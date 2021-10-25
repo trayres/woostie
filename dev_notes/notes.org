@@ -20,3 +20,16 @@
 * TODO:
   I need to change the emission of the signal when you break a transition anchor away from a state
   so that it's properly handled by the controller - this will allow the controller to do some of the stuff the kineticstate is doing, which will improve the overall readability. Currently the KineticState has some "funky" handling that 'reaches into' the transition anchor - it's ugly, but if we redirect to the controller, then have the controller do the disconnect logic, then we can simplify the kinetic state.
+  
+
+* Attributes
+  I really like the attribute notation in Fizzim, but it doesn't always make sense. Like you're showing the TYPE column to the user, for the machine's NAME. What are the options? I don't know without digging into the...Perl? No, no. Just no, thank you.
+  The same goes for the UserAtts column - I understand that it's for extending the backend, but you show it even if it's empty. The "ResetValue" column is shown - why would the machine's name change on Reset?
+
+  This means the user has to hold in their head the fields that can/should be changed for use - it implies a hidden "mask" on the data (like an overlay which indicates what fields should be used). That doesn't seem great from a UI perspective.
+
+* The "Setup" page, and the setup function
+  So I've been using a function (called "setup") for various UI elements; this allows me to call one function on the scene to get it ready before being called. This seems to be working well - here's an example. I could pass a reference to the list of states and their names to the Setup page, in a simple array.
+  OR I could pass a reference to the States node, and make the UI layer extract the names. But that means if I want to mock this thing up for testing, I could either pass in a simple array of strings, or I could pass an honest-to-god reference to the a State object. One of these is much easier, faster, and allows for better decoupling - obviously the simple string array.
+
+  Pretty neat. 
