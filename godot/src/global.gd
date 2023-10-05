@@ -1,4 +1,3 @@
 extends Node
 
-func _ready() -> void:
-	pass
+enum IO_TYPES {INPUT_TYPE, OUTPUT_TYPE, INOUT_TYPE}

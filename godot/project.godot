@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Commands/BaseCommand.gd"
 }, {
+"base": "Node",
+"class": "IODataObject",
+"language": "GDScript",
+"path": "res://src/DataObject/IODataObject.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "KineticState",
 "language": "GDScript",
@@ -28,12 +33,25 @@ _global_script_classes=[ {
 "class": "State",
 "language": "GDScript",
 "path": "res://src/State/State.gd"
+}, {
+"base": "Node",
+"class": "StateDataObject",
+"language": "GDScript",
+"path": "res://src/DataObject/StateDataObject.gd"
+}, {
+"base": "Node",
+"class": "TransitionDataObject",
+"language": "GDScript",
+"path": "res://src/DataObject/TransitionDataObject.gd"
 } ]
 _global_script_class_icons={
 "BaseCommand": "",
+"IODataObject": "",
 "KineticState": "",
 "KineticTransition": "",
-"State": ""
+"State": "",
+"StateDataObject": "",
+"TransitionDataObject": ""
 }
 
 [application]
@@ -44,7 +62,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-GLOBAL="*res://src/global.gd"
+GLOBAL="*res://src/Global.gd"
 
 [input]
 

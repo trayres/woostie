@@ -28,7 +28,6 @@ __meta__ = {
 }
 
 [node name="State Machine" type="Tabs" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -88,30 +87,30 @@ margin_bottom = 24.0
 [node name="ResetSignalHBoxContainer" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
 margin_top = 60.0
 margin_right = 683.0
-margin_bottom = 88.0
+margin_bottom = 84.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="TabContainer/State Machine/VBoxContainer/ResetSignalHBoxContainer"]
-margin_top = 5.0
+margin_top = 3.0
 margin_right = 96.0
-margin_bottom = 23.0
+margin_bottom = 21.0
 size_flags_horizontal = 0
 text = "Reset Signal"
 align = 2
 
-[node name="LineEdit" type="LineEdit" parent="TabContainer/State Machine/VBoxContainer/ResetSignalHBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="TabContainer/State Machine/VBoxContainer/ResetSignalHBoxContainer"]
 margin_left = 100.0
-margin_right = 683.0
-margin_bottom = 28.0
-size_flags_horizontal = 11
+margin_right = 161.0
+margin_bottom = 24.0
+text = "rstn"
 
 [node name="ResetPolarityHBoxContainer" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
-margin_top = 92.0
+margin_top = 88.0
 margin_right = 683.0
-margin_bottom = 116.0
+margin_bottom = 112.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -134,9 +133,9 @@ items = [ "Asynchronous, Positive Edge", null, false, 0, null, "Asynchronous, Ne
 selected = 0
 
 [node name="ResetStateHBoxContainer" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
-margin_top = 120.0
+margin_top = 116.0
 margin_right = 683.0
-margin_bottom = 144.0
+margin_bottom = 140.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -159,6 +158,7 @@ items = [ "State0", null, false, 0, null, "State1", null, false, 1, null, "State
 selected = 0
 
 [node name="Inputs" type="Tabs" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0

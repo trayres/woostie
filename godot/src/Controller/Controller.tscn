@@ -42,7 +42,6 @@ margin_right = 177.0
 margin_bottom = 28.0
 
 [node name="Set Transition Equation" parent="CanvasLayer" instance=ExtResource( 5 )]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -53,6 +52,7 @@ margin_right = 227.0
 margin_bottom = 55.0
 
 [node name="CodeGen" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
 
 [node name="Setup" parent="CanvasLayer" instance=ExtResource( 8 )]
 

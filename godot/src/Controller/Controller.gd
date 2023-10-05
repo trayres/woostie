@@ -259,6 +259,7 @@ func _on_Set_State_Name_set_state_name(idx,name) -> void:
 
 func transition_anchor_moved(transition_idx, node_idx, start_position, final_position)->void:
 	pass
+	# TODO: Generate an event which can be undone.
 	#print("Transition anchor moved event fired")
 	#print("transition_idx:"+str(transition_idx))
 	#print("node_idx:"+str(node_idx))
@@ -281,6 +282,7 @@ func _on_Set_Transition_Equation_set_transition_priority_and_eqn(transition_idx,
 			atransition.set_priority_and_transition_eqn(priority,transition_eqn)
 
 
+# This signal comes from the menubar, and indicates 
 func _on_MenuBar_generate_code() -> void:
 	var _str : String
 	for astate in $States.get_children():
@@ -300,3 +302,8 @@ func _on_MenuBar_generate_code() -> void:
 	#	print("Transition:"+str(atransition.transition_idx))
 	# TODO: Add code generation
 	$CanvasLayer/CodeGen.popup_centered()
+
+# This function scrapes all the states, transitions, and other retained data
+# of the controller to generate DataObjects used to actually generate the HDL
+func generate_data_object_array() ->void:
+	pass
