@@ -61,11 +61,18 @@ func _draw():
 #	if world_ul.x > 0:
 #		world_ul_mg.x = -1*world_ul_mg.x
 	#var x_offset =  Vector2(abs(int(world_ul.x)%GRID_STEP),0);	
-	for i in range(num_vert_lines):
-		draw_line(world_ul_mg+x_offset+DELTA_RIGHT*i,world_ll_mg+x_offset+DELTA_RIGHT*i,Color(0.88,0.88,0.88),2)
-	for i in range(num_horiz_lines):
-		draw_line(world_ul_mg+y_offset+DELTA_UP*i,world_ur_mg+y_offset+DELTA_UP*i,Color(0.88,0.88,0.88),2)
 	
+#	for i in range(num_vert_lines):
+#		draw_line(world_ul_mg+x_offset+DELTA_RIGHT*i,world_ll_mg+x_offset+DELTA_RIGHT*i,Color(0.88,0.88,0.88),2)
+#	for i in range(num_horiz_lines):
+#		draw_line(world_ul_mg+y_offset+DELTA_UP*i,world_ur_mg+y_offset+DELTA_UP*i,Color(0.88,0.88,0.88),2)
+
+# Dashes
+	for i in range(num_vert_lines):
+		for j in range(num_horiz_lines):
+			# Draw the horizontal line
+			draw_line(world_ul_mg+x_offset+y_offset+Vector2(i*GRID_STEP,j*GRID_STEP)+Vector2(-0.5,0),world_ul_mg+x_offset+y_offset+Vector2(i*GRID_STEP,j*GRID_STEP)+Vector2(0.5,0),Color(0.88,0.88,0.88))
+			draw_line(world_ul_mg+x_offset+y_offset+Vector2(i*GRID_STEP,j*GRID_STEP)+Vector2(0,-0.5),world_ul_mg+x_offset+y_offset+Vector2(i*GRID_STEP,j*GRID_STEP)+Vector2(0,0.5),Color(0.88,0.88,0.88))
 #	var canvas_pos = get_global_transform() * Vector2(0,0)
 #	print("canvas_pos:"+str(canvas_pos))
 	

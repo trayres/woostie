@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://deioeq55u1shn"]
+
+[ext_resource type="PackedScene" uid="uid://dmsrjjaobe4i" path="res://actors/State-Area2D/State-Area2D.tscn" id="1_y1h5d"]
+
+[node name="T000-two-states-interacting" type="Node2D"]
+
+[node name="State-Area2D" parent="." instance=ExtResource("1_y1h5d")]
+position = Vector2(563, 157)
+
+[node name="State-Area2D2" parent="." instance=ExtResource("1_y1h5d")]
+position = Vector2(266, 193)

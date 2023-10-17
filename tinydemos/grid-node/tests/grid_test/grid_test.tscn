@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://du1pg2wkh5rub"]
+
+[ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/Camera2D.gd" id="1_0bc7p"]
+[ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/GridGenerator.gd" id="2_e4ou5"]
+[ext_resource type="PackedScene" uid="uid://dujw7o4s5t6km" path="res://actors/KineticState_Mk0/State.tscn" id="3_bneag"]
+
+[node name="grid_test" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("1_0bc7p")
+metadata/_edit_lock_ = true
+
+[node name="GridGenerator" type="Node2D" parent="Camera2D"]
+script = ExtResource("2_e4ou5")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+wait_time = 0.1
+autostart = true
+
+[node name="State" parent="." instance=ExtResource("3_bneag")]
+
+[node name="State2" parent="." instance=ExtResource("3_bneag")]
+position = Vector2(200, 200)
+
+[connection signal="camera_moved" from="Camera2D" to="Camera2D" method="_on_camera_moved"]
+[connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dujw7o4s5t6km"]
 
-[ext_resource type="Script" path="res://actors/State.gd" id="1_x8xje"]
+[ext_resource type="Script" path="res://actors/KineticState_Mk0/State.gd" id="1_lw603"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ct27x"]
 radius = 50.0
@@ -8,7 +8,7 @@ radius = 50.0
 [node name="State" type="CharacterBody2D"]
 input_pickable = true
 motion_mode = 1
-script = ExtResource("1_x8xje")
+script = ExtResource("1_lw603")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ct27x")

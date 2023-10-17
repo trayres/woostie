@@ -1,0 +1,90 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvt1w58sif0j6"]
+
+[ext_resource type="Script" path="res://experiments/002-bezier-transition/T002-filemenu.gd" id="1_448xk"]
+[ext_resource type="PackedScene" uid="uid://dmsrjjaobe4i" path="res://actors/State-Area2D/State-Area2D.tscn" id="2_icyia"]
+[ext_resource type="Theme" uid="uid://bmso01y44tkgf" path="res://actors/Themes/Theme-mk0.tres" id="3_veg85"]
+
+[node name="T002-filemenu" type="Node2D"]
+script = ExtResource("1_448xk")
+
+[node name="States" type="Node" parent="."]
+
+[node name="State-Area2D" parent="States" instance=ExtResource("2_icyia")]
+position = Vector2(458, 74)
+
+[node name="State-Area2D2" parent="States" instance=ExtResource("2_icyia")]
+position = Vector2(191, 362)
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="ControlLayer" type="CanvasLayer" parent="."]
+
+[node name="MenuBar-Panel" type="PanelContainer" parent="ControlLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme = ExtResource("3_veg85")
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlLayer/MenuBar-Panel"]
+layout_mode = 2
+theme = ExtResource("3_veg85")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlLayer/MenuBar-Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="FileMenu" type="MenuButton" parent="ControlLayer/MenuBar-Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "File"
+item_count = 7
+popup/item_0/text = "New"
+popup/item_0/id = 0
+popup/item_1/text = "Open"
+popup/item_1/id = 1
+popup/item_2/text = "Save"
+popup/item_2/id = 2
+popup/item_3/text = "Save As"
+popup/item_3/id = 3
+popup/item_4/text = "Export"
+popup/item_4/id = 4
+popup/item_5/text = ""
+popup/item_5/id = 5
+popup/item_5/separator = true
+popup/item_6/text = "Exit"
+popup/item_6/id = 6
+
+[node name="EditMenu" type="MenuButton" parent="ControlLayer/MenuBar-Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Edit"
+item_count = 3
+popup/item_0/text = "Undo"
+popup/item_0/id = 0
+popup/item_1/text = "Redo"
+popup/item_1/id = 1
+popup/item_2/text = "Delete"
+popup/item_2/id = 2
+
+[node name="ToolsMenu" type="MenuButton" parent="ControlLayer/MenuBar-Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Tools"
+
+[node name="StatusBar-Panel" type="PanelContainer" parent="ControlLayer"]
+offset_top = 622.0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = ExtResource("3_veg85")
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlLayer/StatusBar-Panel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label-LL" type="Label" parent="ControlLayer/StatusBar-Panel/MarginContainer"]
+layout_mode = 2
+text = "DEFAULT TEXT LL"
+
+[node name="Label-LR" type="Label" parent="ControlLayer/StatusBar-Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "DEFAULT TEXT LR"
+horizontal_alignment = 2
