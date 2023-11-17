@@ -12,30 +12,30 @@ script = ExtResource( 4 )
 
 [node name="HeadAnchor" parent="." instance=ExtResource( 1 )]
 position = Vector2( 137.73, 292.412 )
-input_pickable = true
 collision_layer = 2
 collision_mask = 3
+input_pickable = true
 script = ExtResource( 3 )
 
 [node name="P1" parent="." instance=ExtResource( 1 )]
 position = Vector2( 149.287, 181.839 )
-input_pickable = true
 collision_layer = 8
 collision_mask = 8
+input_pickable = true
 script = ExtResource( 5 )
 
 [node name="P2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 261.534, 90.9194 )
-input_pickable = true
 collision_layer = 8
 collision_mask = 8
+input_pickable = true
 script = ExtResource( 5 )
 
 [node name="TailAnchor" parent="." instance=ExtResource( 1 )]
 position = Vector2( 390.764, 112.637 )
-input_pickable = true
 collision_layer = 2
 collision_mask = 3
+input_pickable = true
 script = ExtResource( 2 )
 node_idx = 3
 

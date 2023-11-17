@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dum3q2v0kpa35"]
+
+[ext_resource type="Script" path="res://actors/CodeGen/CodeGen.gd" id="1_tp566"]
+
+[node name="CodeGen" type="Window"]
+mode = 3
+initial_position = 1
+size = Vector2i(500, 500)
+script = ExtResource("1_tp566")

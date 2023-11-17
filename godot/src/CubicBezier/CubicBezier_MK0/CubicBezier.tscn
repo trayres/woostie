@@ -4,6 +4,10 @@
 [ext_resource path="res://assets/green_button13.png" type="Texture" id=2]
 [ext_resource path="res://src/CubicBezier/CubicBezier_MK0/CubicBezier.gd" type="Script" id=3]
 
+[sub_resource type="DynamicFont" id=3]
+size = 20
+font_data = ExtResource( 1 )
+
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 190, 49 )
@@ -11,10 +15,6 @@ region_rect = Rect2( 0, 0, 190, 49 )
 [sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 190, 49 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 20
-font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 20
@@ -32,11 +32,11 @@ position = Vector2( 167, 161 )
 margin_right = 120.0
 margin_bottom = 24.0
 focus_mode = 1
-custom_styles/focus = SubResource( 1 )
-custom_styles/normal = SubResource( 2 )
-custom_fonts/font = SubResource( 3 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+custom_styles/focus = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 expand_to_text_length = true
 placeholder_text = "0"
 __meta__ = {
@@ -53,11 +53,11 @@ position = Vector2( 229.565, 105.953 )
 margin_right = 58.0
 margin_bottom = 24.0
 focus_mode = 1
-custom_styles/focus = SubResource( 2 )
-custom_styles/normal = SubResource( 2 )
-custom_fonts/font = SubResource( 4 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 4 )
+custom_styles/focus = SubResource( 2 )
+custom_styles/normal = SubResource( 2 )
 text = "A==1'b1"
 __meta__ = {
 "_edit_use_anchors_": true

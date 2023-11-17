@@ -1,0 +1,186 @@
+[gd_scene load_steps=14 format=3 uid="uid://c8k360idsqj0i"]
+
+[ext_resource type="Script" path="res://experiments/007-hierarchical-states/T007-hierarchical-states.gd" id="1_yip5f"]
+[ext_resource type="Theme" uid="uid://bmso01y44tkgf" path="res://actors/Themes-and-Fonts/Theme-mk0.tres" id="2_1hb1u"]
+[ext_resource type="PackedScene" uid="uid://befoxxgdd2whi" path="res://actors/Hierarchical-State/Hierarchical-State.tscn" id="3_2ptb6"]
+[ext_resource type="Script" path="res://experiments/007-hierarchical-states/HorzConn.gd" id="3_ic0be"]
+[ext_resource type="Script" path="res://experiments/007-hierarchical-states/Horiz Right AreaDetect.gd" id="5_dktag"]
+[ext_resource type="Script" path="res://experiments/007-hierarchical-states/Horiz Left AreaDetect.gd" id="5_oylcs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n3udw"]
+size = Vector2(400, 400)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iarxo"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vos68"]
+size = Vector2(136, 5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vy8m0"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p3yex"]
+radius = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aef5k"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jmp5d"]
+radius = 1.0
+
+[node name="T007-hierarchical-states" type="Node2D"]
+script = ExtResource("1_yip5f")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+offset_left = 265.0
+offset_top = 426.0
+offset_right = 474.0
+offset_bottom = 607.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Area2D"]
+offset_right = 400.0
+offset_bottom = 400.0
+color = Color(0.952941, 0.952941, 0.952941, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(201, 201)
+shape = SubResource("RectangleShape2D_n3udw")
+
+[node name="Area2D" type="Area2D" parent="Area2D"]
+position = Vector2(101, 108)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D/Area2D"]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_iarxo")
+
+[node name="ColorRect" type="ColorRect" parent="Area2D/Area2D"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.168627, 0.294118, 0.45098, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Area2D"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 1.0
+offset_right = 397.0
+offset_bottom = 27.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = -1.0
+offset_top = -40.0
+offset_right = 403.0
+offset_bottom = -14.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_1hb1u")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Panel"]
+layout_mode = 2
+offset_top = 4.0
+offset_right = 404.0
+offset_bottom = 30.0
+size_flags_vertical = 3
+text = "Off"
+horizontal_alignment = 1
+
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_1hb1u")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Panel2"]
+layout_mode = 2
+offset_top = 4.0
+offset_right = 404.0
+offset_bottom = 30.0
+size_flags_vertical = 3
+text = "Off"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/Panel2"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 404.0
+offset_bottom = 37.0
+size_flags_vertical = 3
+text = "Off"
+horizontal_alignment = 1
+
+[node name="State" parent="." instance=ExtResource("3_2ptb6")]
+offset_left = 543.0
+offset_top = 113.0
+offset_right = 793.0
+offset_bottom = 263.0
+
+[node name="Button" type="Button" parent="."]
+offset_left = 861.0
+offset_top = 54.0
+offset_right = 869.0
+offset_bottom = 62.0
+text = "ADD STATE"
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(585, 195)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_iarxo")
+
+[node name="ColorRect" type="ColorRect" parent="Area2D2"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.168627, 0.294118, 0.45098, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="HorizConn" type="Area2D" parent="."]
+position = Vector2(892, 146)
+script = ExtResource("3_ic0be")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn"]
+shape = SubResource("RectangleShape2D_vos68")
+
+[node name="Horiz Right MouseDetect" type="Area2D" parent="HorizConn"]
+position = Vector2(64, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn/Horiz Right MouseDetect"]
+shape = SubResource("CircleShape2D_vy8m0")
+
+[node name="Horiz Right AreaDetect" type="Area2D" parent="HorizConn/Horiz Right MouseDetect"]
+position = Vector2(4, 0)
+script = ExtResource("5_dktag")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn/Horiz Right MouseDetect/Horiz Right AreaDetect"]
+shape = SubResource("CircleShape2D_p3yex")
+
+[node name="Horiz Left MouseDetect" type="Area2D" parent="HorizConn"]
+position = Vector2(-64, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn/Horiz Left MouseDetect"]
+shape = SubResource("CircleShape2D_aef5k")
+
+[node name="Horiz Left AreaDetect" type="Area2D" parent="HorizConn/Horiz Left MouseDetect"]
+position = Vector2(-4, 0)
+script = ExtResource("5_oylcs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn/Horiz Left MouseDetect/Horiz Left AreaDetect"]
+shape = SubResource("CircleShape2D_jmp5d")
+
+[connection signal="mouse_entered" from="Area2D/Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="mouse_entered" from="Area2D2" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_entered" from="HorizConn" to="HorizConn" method="_on_mouse_entered_hbar"]
+[connection signal="mouse_exited" from="HorizConn" to="HorizConn" method="_on_mouse_exited_hbar"]
+[connection signal="mouse_entered" from="HorizConn/Horiz Right MouseDetect" to="HorizConn" method="_on_horiz_right_mouse_entered"]
+[connection signal="mouse_exited" from="HorizConn/Horiz Right MouseDetect" to="HorizConn" method="_on_horiz_right_mouse_exited"]
+[connection signal="mouse_entered" from="HorizConn/Horiz Left MouseDetect" to="HorizConn" method="_on_horiz_left_mouse_entered"]
+[connection signal="mouse_exited" from="HorizConn/Horiz Left MouseDetect" to="HorizConn" method="_on_horiz_left_mouse_exited"]

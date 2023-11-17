@@ -17,8 +17,8 @@ font_data = ExtResource( 4 )
 radius = 70.0
 
 [node name="Kinematic State" type="KinematicBody2D"]
-input_pickable = true
 collision_mask = 3
+input_pickable = true
 collision/safe_margin = 1.0
 script = ExtResource( 1 )
 
@@ -35,8 +35,8 @@ margin_top = -13.0
 margin_right = 20.0
 margin_bottom = 13.0
 mouse_filter = 1
-custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 2 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

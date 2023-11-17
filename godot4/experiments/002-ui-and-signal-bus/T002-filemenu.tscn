@@ -1,0 +1,100 @@
+[gd_scene load_steps=5 format=3 uid="uid://8tc1nvfksjc5"]
+
+[ext_resource type="Script" path="res://experiments/002-ui-and-signal-bus/T002-filemenu.gd" id="1_oim44"]
+[ext_resource type="Script" path="res://actors/utilities and controller/Controller.gd" id="2_qtl28"]
+[ext_resource type="PackedScene" uid="uid://dmsrjjaobe4i" path="res://actors/State-Area2D/State-Area2D.tscn" id="3_iru5n"]
+[ext_resource type="Theme" uid="uid://bmso01y44tkgf" path="res://actors/Themes-and-Fonts/Theme-mk0.tres" id="4_wr6qq"]
+
+[node name="T002-filemenu" type="Node2D"]
+script = ExtResource("1_oim44")
+
+[node name="Controller" type="Node" parent="."]
+script = ExtResource("2_qtl28")
+
+[node name="States" type="Node" parent="."]
+
+[node name="State-Area2D" parent="States" instance=ExtResource("3_iru5n")]
+position = Vector2(458, 74)
+
+[node name="State-Area2D2" parent="States" instance=ExtResource("3_iru5n")]
+position = Vector2(191, 362)
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="ControlLayer" type="CanvasLayer" parent="."]
+
+[node name="MenuBar-Panel" type="PanelContainer" parent="ControlLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme = ExtResource("4_wr6qq")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlLayer/MenuBar-Panel"]
+layout_mode = 2
+theme = ExtResource("4_wr6qq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlLayer/MenuBar-Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="FileMenu" type="MenuButton" parent="ControlLayer/MenuBar-Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "File"
+item_count = 7
+popup/item_0/text = "New"
+popup/item_0/id = 0
+popup/item_1/text = "Open"
+popup/item_1/id = 1
+popup/item_2/text = "Save"
+popup/item_2/id = 2
+popup/item_3/text = "Save As"
+popup/item_3/id = 3
+popup/item_4/text = "Export"
+popup/item_4/id = 4
+popup/item_5/text = ""
+popup/item_5/id = 5
+popup/item_5/separator = true
+popup/item_6/text = "Exit"
+popup/item_6/id = 6
+
+[node name="EditMenu" type="MenuButton" parent="ControlLayer/MenuBar-Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Edit"
+item_count = 3
+popup/item_0/text = "Undo"
+popup/item_0/id = 0
+popup/item_1/text = "Redo"
+popup/item_1/id = 1
+popup/item_2/text = "Delete"
+popup/item_2/id = 2
+
+[node name="ToolsMenu" type="MenuButton" parent="ControlLayer/MenuBar-Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Tools"
+
+[node name="StatusBar-Panel" type="PanelContainer" parent="ControlLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("4_wr6qq")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlLayer/StatusBar-Panel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label-LL" type="Label" parent="ControlLayer/StatusBar-Panel/MarginContainer"]
+layout_mode = 2
+text = "DEFAULT TEXT LL"
+
+[node name="Label-LR" type="Label" parent="ControlLayer/StatusBar-Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "DEFAULT TEXT LR"
+horizontal_alignment = 2

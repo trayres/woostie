@@ -1,0 +1,6 @@
+#+TITLE: Woostie Architecture
+#+AUTHOR: trayres
+#+SEQ_TODO: REPEAT(r) NEXT(n@/!) TODO(t@/!) WAITING(w@/!) SOMEDAY(s@/!) PROJ(p) | DONE(d@) CANCELLED(c@)
+#+STARTUP: nologrepeat nofninline indent
+#+TAGS: PHONE(o) COMPUTER(c) SHOPPING(s) URGENT(u)
+#+ARCHIVE: %s_archive::

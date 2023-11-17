@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3 uid="uid://befoxxgdd2whi"]
+
+[ext_resource type="Script" path="res://experiments/007-hierarchical-states/State.gd" id="1_cfw84"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i38qe"]
+bg_color = Color(0.388235, 0.623529, 0.835294, 0.215686)
+
+[sub_resource type="Theme" id="Theme_s50ls"]
+Panel/styles/panel = SubResource("StyleBoxFlat_i38qe")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xh4es"]
+size = Vector2(4, 142)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pngb7"]
+size = Vector2(250, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nn5rb"]
+size = Vector2(250, 4)
+
+[node name="State" type="Panel"]
+offset_left = 611.0
+offset_top = 225.0
+offset_right = 861.0
+offset_bottom = 375.0
+theme = SubResource("Theme_s50ls")
+script = ExtResource("1_cfw84")
+
+[node name="Top Bar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -123.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Top Bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "[center]On[/center]"
+
+[node name="Right Area2D" type="Area2D" parent="."]
+position = Vector2(252, 73)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right Area2D"]
+shape = SubResource("RectangleShape2D_xh4es")
+
+[node name="Bottom Area2D" type="Area2D" parent="."]
+position = Vector2(125, 152)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom Area2D"]
+shape = SubResource("RectangleShape2D_pngb7")
+
+[node name="Left Area2D" type="Area2D" parent="."]
+position = Vector2(-3, 72)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Area2D"]
+shape = SubResource("RectangleShape2D_xh4es")
+
+[node name="Top Area2D" type="Area2D" parent="."]
+position = Vector2(125, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top Area2D"]
+shape = SubResource("RectangleShape2D_nn5rb")
+
+[node name="ResizeControl" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 228.0
+offset_top = 126.0
+offset_right = 249.0
+offset_bottom = 148.0
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="gui_input" from="Top Bar" to="." method="_on_top_bar_gui_input"]
+[connection signal="area_entered" from="Right Area2D" to="." method="_on_right_area_2d_area_entered"]
+[connection signal="gui_input" from="ResizeControl" to="." method="_on_resize_control_gui_input"]

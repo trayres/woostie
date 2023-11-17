@@ -1,0 +1,5 @@
+The Mk1 transition is meant to be added to the scene programmatically and to 
+actually have the Bezier curve style.
+
+Note that the "Head" and "Tail" Area2D are the "tip of the spear" and are used
+to interact with State objects.

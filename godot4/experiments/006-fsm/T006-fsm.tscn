@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnw37n5qytcfd"]
+
+[ext_resource type="Script" path="res://experiments/006-fsm/T006-fsm.gd" id="1_6ngro"]
+
+[node name="T006-fsm" type="Node2D"]
+script = ExtResource("1_6ngro")

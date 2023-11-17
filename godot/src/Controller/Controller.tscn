@@ -52,7 +52,6 @@ margin_right = 227.0
 margin_bottom = 55.0
 
 [node name="CodeGen" parent="CanvasLayer" instance=ExtResource( 7 )]
-visible = false
 
 [node name="Setup" parent="CanvasLayer" instance=ExtResource( 8 )]
 

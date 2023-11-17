@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://d0dtvu8xfn8mr"]
+
+[ext_resource type="Script" path="res://experiments/003-system-controller/T003-system-controller.gd" id="1_pb3vp"]
+[ext_resource type="Script" path="res://actors/utilities and controller/Controller.gd" id="2_dr33v"]
+[ext_resource type="PackedScene" uid="uid://dmsrjjaobe4i" path="res://actors/State-Area2D/State-Area2D.tscn" id="3_x5wr2"]
+[ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/Camera2D.gd" id="4_yw8xp"]
+[ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/GridGenerator.gd" id="5_dhd77"]
+[ext_resource type="PackedScene" uid="uid://caj6mooy4femp" path="res://actors/UI/Menu-Bar.tscn" id="6_hjfl4"]
+[ext_resource type="Theme" uid="uid://bmso01y44tkgf" path="res://actors/Themes-and-Fonts/Theme-mk0.tres" id="7_f88w0"]
+
+[node name="T004-better-transitions" type="Node2D"]
+script = ExtResource("1_pb3vp")
+
+[node name="Controller" type="Node" parent="."]
+script = ExtResource("2_dr33v")
+
+[node name="States" type="Node" parent="."]
+
+[node name="State-Area2D" parent="States" instance=ExtResource("3_x5wr2")]
+position = Vector2(458, 74)
+
+[node name="State-Area2D2" parent="States" instance=ExtResource("3_x5wr2")]
+position = Vector2(191, 362)
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("4_yw8xp")
+
+[node name="GridGenerator" type="Node2D" parent="Camera2D"]
+script = ExtResource("5_dhd77")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+wait_time = 0.25
+autostart = true
+
+[node name="ControlLayer" type="CanvasLayer" parent="."]
+
+[node name="Menu-Bar" parent="ControlLayer" instance=ExtResource("6_hjfl4")]
+
+[node name="StatusBar-Panel" type="PanelContainer" parent="ControlLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("7_f88w0")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlLayer/StatusBar-Panel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label-LL" type="Label" parent="ControlLayer/StatusBar-Panel/MarginContainer"]
+layout_mode = 2
+text = "DEFAULT TEXT LL"
+
+[node name="Label-LR" type="Label" parent="ControlLayer/StatusBar-Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "DEFAULT TEXT LR"
+horizontal_alignment = 2
+
+[connection signal="camera_moved" from="Camera2D" to="Camera2D" method="_on_camera_moved"]
+[connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]

@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://caj6mooy4femp"]
+
+[ext_resource type="Theme" uid="uid://bmso01y44tkgf" path="res://actors/Themes-and-Fonts/Theme-mk0.tres" id="1_op7ap"]
+[ext_resource type="Script" path="res://actors/UI/Menu-Bar.gd" id="2_5heo8"]
+
+[node name="MenuBar-Panel" type="PanelContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme = ExtResource("1_op7ap")
+script = ExtResource("2_5heo8")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("1_op7ap")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="FileMenu" type="MenuButton" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "File"
+item_count = 7
+popup/item_0/text = "New"
+popup/item_0/id = 0
+popup/item_1/text = "Open"
+popup/item_1/id = 1
+popup/item_2/text = "Save"
+popup/item_2/id = 2
+popup/item_3/text = "Save As"
+popup/item_3/id = 3
+popup/item_4/text = "Export"
+popup/item_4/id = 4
+popup/item_5/text = ""
+popup/item_5/id = 5
+popup/item_5/separator = true
+popup/item_6/text = "Exit"
+popup/item_6/id = 6
+
+[node name="EditMenu" type="MenuButton" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Edit"
+item_count = 3
+popup/item_0/text = "Undo"
+popup/item_0/id = 0
+popup/item_1/text = "Redo"
+popup/item_1/id = 1
+popup/item_2/text = "Delete"
+popup/item_2/id = 2
+
+[node name="ToolsMenu" type="MenuButton" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Tools"
+item_count = 4
+popup/item_0/text = "Debug - Add Transition"
+popup/item_0/id = 0
+popup/item_1/text = "Debug - Add State"
+popup/item_1/id = 1
+popup/item_2/text = "Show Settings"
+popup/item_2/id = 2
+popup/item_3/text = "Mark Reset State"
+popup/item_3/id = 3

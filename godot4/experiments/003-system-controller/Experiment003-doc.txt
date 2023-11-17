@@ -1,0 +1,9 @@
+This experiment sets up a system controller which acts as a bridge between the 
+signal bus and the node hierarchy - this allows the controller to do things like
+update the UI layer and receive events from the system bus.
+
+This is also where we'll be putting other "system control" type things - simple
+state machines for controlling multipart actions, etc. 
+
+As of right now the event bus/controller stuff works, the other part will be ported
+on later. 

@@ -1,0 +1,109 @@
+[gd_scene load_steps=15 format=3 uid="uid://bdrrtr0cs2qfb"]
+
+[ext_resource type="Script" path="res://experiments/005-file-dialog/T005-file_dialog.gd" id="1_yxgdj"]
+[ext_resource type="Script" path="res://actors/utilities and controller/Controller.gd" id="2_eip2m"]
+[ext_resource type="Script" path="res://actors/State-Area2D/DummyState.gd" id="2_jqnr8"]
+[ext_resource type="PackedScene" uid="uid://dmsrjjaobe4i" path="res://actors/State-Area2D/State-Area2D.tscn" id="3_c0mjn"]
+[ext_resource type="Script" path="res://actors/StateMachine/StateMachine.gd" id="3_xmlvl"]
+[ext_resource type="Script" path="res://actors/StateMachine/IdleState.gd" id="4_51dsh"]
+[ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/Camera2D.gd" id="4_mkqtv"]
+[ext_resource type="Script" path="res://actors/StateMachine/AddingState.gd" id="5_2povn"]
+[ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/GridGenerator.gd" id="5_lhbd6"]
+[ext_resource type="PackedScene" uid="uid://caj6mooy4femp" path="res://actors/UI/Menu-Bar.tscn" id="6_80i6o"]
+[ext_resource type="Script" path="res://actors/StateMachine/AddingTransition.gd" id="6_gcvm3"]
+[ext_resource type="Theme" uid="uid://bmso01y44tkgf" path="res://actors/Themes-and-Fonts/Theme-mk0.tres" id="7_3eqhi"]
+[ext_resource type="Script" path="res://actors/UI/StatusBar-Panel.gd" id="12_dw60l"]
+[ext_resource type="PackedScene" uid="uid://cilyd52xx5vbk" path="res://actors/UI/fsm_settings.tscn" id="14_q3lxi"]
+
+[node name="T005-file-dialog" type="Node2D"]
+script = ExtResource("1_yxgdj")
+
+[node name="DummyState" type="Node2D" parent="."]
+script = ExtResource("2_jqnr8")
+
+[node name="Controller" type="Node" parent="."]
+script = ExtResource("2_eip2m")
+
+[node name="UndoStack" type="Node" parent="Controller"]
+
+[node name="RedoStack" type="Node" parent="Controller"]
+
+[node name="StateMachine" type="Node" parent="Controller"]
+script = ExtResource("3_xmlvl")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="Controller/StateMachine"]
+script = ExtResource("4_51dsh")
+
+[node name="AddingState" type="Node" parent="Controller/StateMachine"]
+script = ExtResource("5_2povn")
+
+[node name="AddingTransition" type="Node" parent="Controller/StateMachine"]
+script = ExtResource("6_gcvm3")
+
+[node name="States" type="Node" parent="."]
+
+[node name="State-Area2D" parent="States" instance=ExtResource("3_c0mjn")]
+position = Vector2(458, 74)
+
+[node name="State-Area2D2" parent="States" instance=ExtResource("3_c0mjn")]
+position = Vector2(191, 362)
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("4_mkqtv")
+
+[node name="GridGenerator" type="Node2D" parent="Camera2D"]
+script = ExtResource("5_lhbd6")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+wait_time = 0.25
+autostart = true
+
+[node name="ControlLayer" type="CanvasLayer" parent="."]
+
+[node name="Menu-Bar" parent="ControlLayer" instance=ExtResource("6_80i6o")]
+
+[node name="StatusBar-Panel" type="PanelContainer" parent="ControlLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("7_3eqhi")
+script = ExtResource("12_dw60l")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlLayer/StatusBar-Panel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label-LL" type="Label" parent="ControlLayer/StatusBar-Panel/MarginContainer"]
+layout_mode = 2
+text = "DEFAULT TEXT LL"
+
+[node name="Label-LR" type="Label" parent="ControlLayer/StatusBar-Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "DEFAULT TEXT LR"
+horizontal_alignment = 2
+
+[node name="SaveFileDialog" type="FileDialog" parent="."]
+title = "Save File"
+initial_position = 2
+size = Vector2i(452, 162)
+access = 2
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+initial_position = 2
+size = Vector2i(290, 100)
+dialog_text = "Save work before creating new file?"
+
+[node name="FSM Settings" parent="." instance=ExtResource("14_q3lxi")]
+controller = NodePath("../Controller")
+
+[connection signal="camera_moved" from="Camera2D" to="Camera2D" method="_on_camera_moved"]
+[connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]

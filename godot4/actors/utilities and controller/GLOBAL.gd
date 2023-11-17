@@ -1,0 +1,3 @@
+extends Node
+
+enum IO_TYPES {INPUT_TYPE, OUTPUT_TYPE, INOUT_TYPE}

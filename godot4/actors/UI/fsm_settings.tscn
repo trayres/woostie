@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3 uid="uid://cilyd52xx5vbk"]
+
+[ext_resource type="Script" path="res://actors/UI/fsm_settings.gd" id="1_ablch"]
+
+[node name="FSM Settings" type="Window"]
+initial_position = 2
+size = Vector2i(450, 300)
+script = ExtResource("1_ablch")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="State Machine" type="TabBar" parent="TabContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/State Machine"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="TabContainer/State Machine/VBoxContainer/Name"]
+layout_mode = 2
+text = "State Machine Name:"
+
+[node name="NameLineEdit" type="LineEdit" parent="TabContainer/State Machine/VBoxContainer/Name"]
+layout_mode = 2
+size_flags_horizontal = 3
+expand_to_text_length = true
+
+[node name="Clock" type="HBoxContainer" parent="TabContainer/State Machine/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/State Machine/VBoxContainer/Clock"]
+layout_mode = 2
+text = "Clock"
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/State Machine/VBoxContainer/Clock"]
+layout_mode = 2
+
+[node name="Inputs" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Outputs" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="States" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Transitions" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
