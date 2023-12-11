@@ -14,6 +14,9 @@ var draw_statename_line : bool = false
 var mouse_in_label_timer : Timer
 var idx : int
 var is_reset_state : bool = false
+var sname : String 
+
+var comb_outputs = {}
 
 signal state_moved(offset_delta)
 #signal mouse_pos_update(global_position : Vector2)
@@ -26,8 +29,13 @@ func _ready():
 func setup(idx,glbl_pos):
 	self.idx = idx
 	global_position = glbl_pos
-	$MarginContainer/StateName.text="State_"+str(idx)
+	set_state_name("State_"+str(idx))
 	
+func get_state_name()->String:
+	return sname
+func set_state_name(new_name:String)->void:
+	sname = new_name
+	$MarginContainer/StateName.text=new_name
 
 # Attempting to use unhandled_input and set_input_as_handled
 # to account for overlapping items
@@ -75,7 +83,11 @@ func _process(delta):
 func _draw():
 	draw_circle(Vector2(0,0),50.0,Color(0.222,0.6718,0.6757))
 	#draw_arc(center: Vector2, radius: float, start_angle: float, end_angle: float, point_count: int, color: Color, width: float = -1.0, antialiased: bool = false
-	draw_arc(Vector2(0,0),50.0,0,0,36,Color.BLACK,1.5,true)
+	draw_arc(Vector2(0,0),50.0,0,360,36,Color.BLACK,1.5,true)
+	
+	if is_reset_state:
+		draw_arc(Vector2(0,0),50.0,0,360,36,Color.BLACK,4,true)
+	
 	if draw_statename_line and dragging_label:
 		#print("draw_statename_line",draw_statename_line)
 		draw_line(to_local(self.global_position),to_local($MarginContainer/StateName.global_position),Color.BLACK,1.5,true)
@@ -159,7 +171,21 @@ func _on_timer_timeout():
 		draw_statename_line = false
 		queue_redraw()
 
-func get_state_name()->String:
-	return $MarginContainer/StateName.text	
+
 func get_state_idx()->int:
 	return idx
+	
+func mark_as_reset()->void:
+	is_reset_state = true
+	queue_redraw()
+func clear_as_reset()->void:
+	is_reset_state = false
+	queue_redraw()
+	
+func get_state_object()->StateDataObject:
+	var state_info : StateDataObject = StateDataObject.new()
+	state_info.name = get_state_name()
+	state_info.idx = get_state_idx()
+	state_info.is_reset_state = self.is_reset_state
+	state_info.comb_outputs = self.comb_outputs.duplicate()
+	return state_info

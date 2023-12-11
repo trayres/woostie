@@ -4,3 +4,13 @@
 #+STARTUP: nologrepeat nofninline indent
 #+TAGS: PHONE(o) COMPUTER(c) SHOPPING(s) URGENT(u)
 #+ARCHIVE: %s_archive::
+
+* Introduction
+This document describes various pieces of the Woostie architecture. Hopefully it is useful to others.
+
+** Controller
+The Controller node serves to be the interface between the SignalBus and the rest of the scene tree - from here you can hook in various commands. It provides a nice location to filter events to the rest of the machine - as an example, rather than duplicating the code that notes mouse move events and upates the XY mouse coordinate label, the events are "filtered" here (as they relate to all states).
+** SignalBus
+The SignalBus provides excellent decoupling between the sources of events and the target; any node can place an event upon the SignalBus, and those events are listened to by other nodes. As an example take the GUI menus: events are placed upon the signal bus by the user clicking various commands in the menus, and these commands are "listened to" by other nodes - say the controller, or the code generator.
+** Finite State Machine
+The FSM has events passed to it via the Controller. Upon entry and exit of a state, various actions are executed - as an example, updating a label to describe the current state of the tool. Because the FSM itself receives events (e.g. MouseButtonDown etc), it is able to work in concert with the rest of the machine easily: a good example of this is state to mark a reset state. 

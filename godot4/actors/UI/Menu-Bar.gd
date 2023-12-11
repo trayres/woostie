@@ -47,6 +47,9 @@ func _on_toolsmenu_pressed(id:int):
 		3: 
 			print("Firing mark debug state")
 			SignalBus.mark_debug_state.emit()
+		4:
+			print("Generate Code")
+			SignalBus.generate_code.emit()
 		_:
 			print("Unhandled toolsmenu ID!")
 		

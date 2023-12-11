@@ -9,7 +9,13 @@ var transition = preload("res://actors/Transition/Transition-Mk1.tscn")
 var state = preload("res://actors/State-Area2D/State-Area2D.tscn")
 
 var fsm_name : String 
+var io_info : Array # This needs to be saved between runs - it's information about
+# the inputs that the user gives us. The state and transition info is derived
+# from the "States" and "Transition" nodes
+#var state_info : Array
+#var transition_info : Array
 
+var mouse_in_state = []
 
 func _ready():
 	# Connecting the signal bus to the controller
@@ -23,6 +29,8 @@ func _ready():
 	SignalBus.connect("add_transition_finalize",_add_transition_finalize)
 	SignalBus.connect("edit_undo",undo)
 	SignalBus.connect("edit_redo",redo)
+	SignalBus.mouse_over_state.connect(_mouse_over_state) # Replace with function body.
+	SignalBus.mouse_left_state.connect(_mouse_left_state)
 	
 	# Experimental/Debug/Shim setup here
 	
@@ -58,53 +66,9 @@ func _debug_add_transition():
 	
 func change_state(new_state,old_state):
 	$StateMachine.transition_to_state(new_state)
-#	# This is in case we want to filter the actions on transitions 
-#	# but it doesn't look like we're using it at all.
-#	# TODO: Refactor, remove totally.
-#	print("new_state in change state is: ",new_state)
-#	print("old_state in change state is: ",old_state)
-#	match old_state:
-#		"Idle":
-#			match new_state:
-#				"AddingState": # Idle->AddingState
-#					$StateMachine.transition_to_state(new_state)
-#				"AddingTransition": # Idle -> AddingTransition
-#
-#				_:
-#					print("Idle->SOMETHING transition UNMATCHED!")
-#		"AddingState":
-#			match new_state:
-#				"Idle": #AddingState->Idle 
-#					$StateMachine.transition_to_state(new_state)
-#				_:
-#					print("AddingState->SOMETHING transition UNMATCHED!")
-#		"AddingTransition":
-#			match new_state:
-#				"Idle":
-#					$StateMachine.transition_to_state(new_state)
-#		_:
-#			print("OLD STATE UNMATCHED ERROR")					
-##	if new_state is AddingState:
-##		print("Idle to adding state in Controller!")
+#	
 func _debug_add_state():
 	change_state("AddingState",$StateMachine.curr_state.name)
-
-# This functionality was "Localized" by connecting these UI components directly
-# To the SignalBus (rather than having them run through the controller)
-#func _update_statusbar_ll_label(newstring : String):
-#	$"../ControlLayer/StatusBar-Panel/MarginContainer/Label-LL".text=newstring
-	
-func _add_state(glbl_pos : Vector2):
-	var astate = state.instantiate()
-	astate.setup(glbl_pos)
-	$"../States".add_child(astate)
-	
-func _add_transition():
-	#TODO Encapsulate this into a Command object and add it to the undo/redo stack
-	var atransition = transition.instantiate()
-	print("Adding Mk1 Transition")
-	atransition.setup(Vector2(200,200),Vector2(400,400))
-	$Transitions.add_child(atransition)
 	
 func _add_state_finalize():
 	change_state("Idle",$StateMachine.curr_state.name)
@@ -130,20 +94,45 @@ func redo():
 	else:
 		print("Redo stack empty!")
 
-func get_state_array()->Array:
-	# Create the state array objects
-	var state_array : Array
-	for child in $"../States".get_children():	
-		var a_state_object = StateDataObject.new()
-		a_state_object.state_name = child.get_state_name()
-		a_state_object.idx = child.get_state_idx()
-		if child.is_reset_state():
-			a_state_object.is_reset_state = true
-		else:
-			a_state_object.is_reset_state = false
-		state_array.append(a_state_object)
-	return state_array
+
 func _mark_debug_state():
 	change_state("MarkResetState",$StateMachine.curr_state.name)
 func _mark_debug_state_finalize(idx):
-	print("BACK IN CONTROLLER MARKING STATE:",idx)
+	for child in $"../States".get_children():
+		if child.idx == idx:
+			child.mark_as_reset()
+		else:
+			child.clear_as_reset()
+	change_state("Idle",$StateMachine.curr_state.name)
+	
+# This information is tracked here because what if the user wants to delete a state?
+# what's better is that we should have a mouse_over_transition as well. But that's a lot to track.
+# Maybe we should have global unique ids, and just track those? That's much smarter.
+# I'll refactor the code to add that later.
+func _mouse_over_state(idx):
+	if not mouse_in_state.has(idx):
+		mouse_in_state.append(idx)
+func _mouse_left_state(idx):
+	while mouse_in_state.has(idx):
+		mouse_in_state.erase(idx)
+		
+func get_state_info()->Array:
+	# Create the state array objects
+	var state_array : Array
+	for child in $"../States".get_children():	
+		state_array.append(child.get_state_object())
+	return state_array		
+
+# Since the IO array is built by the FSM Settings box (not yet added and extracted from the diagram)
+# we'll need to build this elsewhere - the "FSM Settings" will emit a signal which will fill in that 
+# data on close, at which point the user can return it from here.	
+func get_io_info()->Array: 
+	return self.io_info
+
+# We should ask each transition object to return a data object that describes itself - we'll do the same 
+# thing with states	
+func get_transition_info()->Array:
+	var io_info_array : Array
+	for child in $"../Transitions".get_children():
+		io_info_array.append(child.transition_info())
+	return self.io_info

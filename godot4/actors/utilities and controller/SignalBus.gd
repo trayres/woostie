@@ -23,6 +23,16 @@ signal edit_redo
 signal edit_delete
 
 signal show_fsm_settings
+signal generate_code
+
+signal transition_options(idx)
+
+# schematic editor signals
+signal dbg_draw_wire(cursor_pos)
+signal cursor_moved(glbl_pos : Vector2i)
+var cursor_overlapped 
+signal add_wire(cursor_pos)
+signal wiredatabase_add_wire
 
 
 # Called when the node enters the scene tree for the first time.

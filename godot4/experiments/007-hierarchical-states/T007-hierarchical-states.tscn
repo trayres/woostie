@@ -4,8 +4,8 @@
 [ext_resource type="Theme" uid="uid://bmso01y44tkgf" path="res://actors/Themes-and-Fonts/Theme-mk0.tres" id="2_1hb1u"]
 [ext_resource type="PackedScene" uid="uid://befoxxgdd2whi" path="res://actors/Hierarchical-State/Hierarchical-State.tscn" id="3_2ptb6"]
 [ext_resource type="Script" path="res://experiments/007-hierarchical-states/HorzConn.gd" id="3_ic0be"]
-[ext_resource type="Script" path="res://experiments/007-hierarchical-states/Horiz Right AreaDetect.gd" id="5_dktag"]
-[ext_resource type="Script" path="res://experiments/007-hierarchical-states/Horiz Left AreaDetect.gd" id="5_oylcs"]
+[ext_resource type="Script" path="res://experiments/007-hierarchical-states/Horiz Right MouseDetect.gd" id="5_y27e7"]
+[ext_resource type="Script" path="res://experiments/007-hierarchical-states/Horiz Left MouseDetect.gd" id="6_c3c6m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3udw"]
 size = Vector2(400, 400)
@@ -151,26 +151,26 @@ shape = SubResource("RectangleShape2D_vos68")
 
 [node name="Horiz Right MouseDetect" type="Area2D" parent="HorizConn"]
 position = Vector2(64, 0)
+script = ExtResource("5_y27e7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn/Horiz Right MouseDetect"]
 shape = SubResource("CircleShape2D_vy8m0")
 
 [node name="Horiz Right AreaDetect" type="Area2D" parent="HorizConn/Horiz Right MouseDetect"]
 position = Vector2(4, 0)
-script = ExtResource("5_dktag")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn/Horiz Right MouseDetect/Horiz Right AreaDetect"]
 shape = SubResource("CircleShape2D_p3yex")
 
 [node name="Horiz Left MouseDetect" type="Area2D" parent="HorizConn"]
 position = Vector2(-64, 0)
+script = ExtResource("6_c3c6m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn/Horiz Left MouseDetect"]
 shape = SubResource("CircleShape2D_aef5k")
 
 [node name="Horiz Left AreaDetect" type="Area2D" parent="HorizConn/Horiz Left MouseDetect"]
 position = Vector2(-4, 0)
-script = ExtResource("5_oylcs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HorizConn/Horiz Left MouseDetect/Horiz Left AreaDetect"]
 shape = SubResource("CircleShape2D_jmp5d")

@@ -22,11 +22,18 @@ var head_rotated : bool = false
 var tail_rotated : bool = false
 @onready var mouse_is_near = false
 @onready var curve = Curve2D.new()
-var priority : int = 0
+
 var transition_is_selected : bool = false
 var mouse_in_prioritylabel_timer_running : bool
 var mouse_in_prioritylabel_timer : Timer
 var mouse_in_prioritylabel_cnt : int
+
+# The below group is put together to make the transitiondataobject
+var priority : int = 0
+var transition_eqn : String = "1"
+var default_transition_eqn : String = "1"
+var transition_eqn_visibility : int = GLOBAL.VISIBILITY.ONLY_NON_DEFAULT
+var transition_idx : int = 0
 
 func _ready():
 	add_to_group("transitions")
@@ -48,7 +55,8 @@ func _process(delta):
 		mouse_is_near = false
 		queue_redraw()
 
-func setup(head_glbl_pos,tail_glbl_pos):
+func setup(idx,head_glbl_pos,tail_glbl_pos):
+	self.transition_idx = idx
 	$Head.global_position = head_glbl_pos
 	$"Head-MouseDetect".global_position = head_glbl_pos
 	$"Head/HeadControl".global_position = head_glbl_pos + Vector2(0,-40)
@@ -66,7 +74,13 @@ func setup(head_glbl_pos,tail_glbl_pos):
 
 	# Position the priority label
 	$PriorityMarginContainer.global_position = tail_glbl_pos + Vector2(10,0)
-
+	
+	# Setup the visibility of the priority label
+	if is_priority_visible():
+		$PriorityMarginContainer.visible = true
+	else:
+		$PriorityMarginContainer.visible = false
+#	$PriorityMarginContainer/Priority
 func _on_head_mouse_detect_mouse_entered():
 	mouse_detect_head = true
 	print("mouse_detect_head true")
@@ -165,7 +179,7 @@ func _unhandled_input(event):
 		dragging_head = true
 		last_mouse_pos = get_global_mouse_position()
 		# testing 20231106
-		#self.get_viewport().set_input_as_handled()
+		self.get_viewport().set_input_as_handled()
 		
 	if Input.is_action_just_pressed("click") and mouse_detect_headcontrol:
 		if !head_rotated:
@@ -174,7 +188,7 @@ func _unhandled_input(event):
 		dragging_headcontrol = true
 		last_mouse_pos = get_global_mouse_position()
 		# testing 20231106
-		#self.get_viewport().set_input_as_handled()
+		self.get_viewport().set_input_as_handled()
 	if Input.is_action_just_pressed("click") and mouse_detect_tailcontrol:
 		if !tail_rotated:
 			last_tail_rotation = -PI/2
@@ -182,29 +196,34 @@ func _unhandled_input(event):
 		dragging_tailcontrol = true
 		last_mouse_pos = get_global_mouse_position()
 		# testing 20231106
-		#self.get_viewport().set_input_as_handled()		
+		self.get_viewport().set_input_as_handled()		
 		#print("dragging_tailcontrol true")
 	if Input.is_action_just_pressed("click") and mouse_detect_tail:
 		dragging_tail = true
 		last_mouse_pos = get_global_mouse_position()
 		# testing 20231106
-		#self.get_viewport().set_input_as_handled()
+		self.get_viewport().set_input_as_handled()
 	if Input.is_action_just_pressed("click") and mouse_detect_tailcontrol:
 		dragging_tailcontrol = true
 		last_mouse_pos = get_global_mouse_position()
 		# testing 20231106
-		#self.get_viewport().set_input_as_handled()	
+		self.get_viewport().set_input_as_handled()	
 		#print("dragging_tailcontrol true")
 	if Input.is_action_just_pressed("click") and mouse_is_near and not transition_is_selected:
 		transition_is_selected = true
 		#print("transition_is_selected true _unhandled_input")
 		# testing 20231106
-		#self.get_viewport().set_input_as_handled()
+		self.get_viewport().set_input_as_handled()
 	if Input.is_action_just_pressed("click") and not mouse_is_near and transition_is_selected and not (dragging_head or dragging_tail or dragging_headcontrol or dragging_tailcontrol):
 		transition_is_selected = false
 		#print("transition_is_selected false _unhandled_input")
 		# testing 20231106
-		# self.get_viewport().set_input_as_handled()
+		#self.get_viewport().set_input_as_handled()
+#	if Input.is_action_just_pressed("click") and transition_is_selected and mouse_is_near and event.double_click():
+#		print("DOUBLE CLICK")
+	if event is InputEventMouseButton and transition_is_selected and mouse_is_near:
+		if event.double_click:
+			SignalBus.transition_options.emit(transition_idx)
 	if Input.is_action_just_released("click"):
 		dragging_head = false
 		dragging_headcontrol = false
@@ -243,7 +262,7 @@ func _unhandled_input(event):
 			update_curve()
 		last_mouse_pos = new_mouse_pos
 		# testing 20231106
-		#self.get_viewport().set_input_as_handled()
+		self.get_viewport().set_input_as_handled()
 		queue_redraw()
 
 func _on_head_connected_state_moved(offset_delta):
@@ -389,3 +408,26 @@ func _on_priority_gui_input(event):
 		last_mouse_pos = new_mouse_pos
 		# testing 20231106
 		#self.get_viewport().set_input_as_handled()		
+func get_transition_object()->TransitionDataObject:
+	var transition_info : TransitionDataObject = TransitionDataObject.new()
+	transition_info.idx = self.idx
+	if is_head_connected:
+		transition_info.head_state_idx = connected_head_state.idx
+	else:
+		transition_info.head_state_idx = -1
+	if is_tail_connected:
+		transition_info.tail_state_idx = connected_tail_state.idx
+	else:
+		transition_info.tail_state_idx = -1
+	transition_info.transition_eqn = [transition_eqn,default_transition_eqn,transition_eqn_visibility]
+	return transition_info
+
+func is_priority_visible()->bool:
+	var isVisible : bool
+	if transition_eqn_visibility==GLOBAL.VISIBILITY.ONLY_NON_DEFAULT and transition_eqn!=default_transition_eqn:
+		isVisible = true
+	elif transition_eqn_visibility==GLOBAL.VISIBILITY.YES:
+		isVisible = true
+	elif transition_eqn_visibility==GLOBAL.VISIBILITY.NO:
+		isVisible = false
+	return isVisible

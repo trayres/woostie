@@ -21,13 +21,12 @@ func _ready():
 		if child is State:
 			states[child.name] = child # add to the states dictionary
 
-	# Setup various child state variables
+	# Here we can pass references to the states themselves. Note that another 
+	# method to do this is with the @export, or with a method such as "setup"
 	$AddingState.states = $"../../States"
 	# Finally, go to the initial state
 	curr_state.enter()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if curr_state:
 		curr_state.update(delta)

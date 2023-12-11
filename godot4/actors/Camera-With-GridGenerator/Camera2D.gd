@@ -1,8 +1,8 @@
 extends Camera2D
 
-const zoom_min : int = 1
+const zoom_min : int = .6
 const zoom_max : int = 5
-var zoom_speed = 0.5
+var zoom_speed = 0.2
 var panning = false
 
 var prev_mouse_pos : Vector2

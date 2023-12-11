@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://experiments/005-file-dialog/T005-file_dialog.gd" id="1_yxgdj"]
 [ext_resource type="Script" path="res://actors/utilities and controller/Controller.gd" id="2_eip2m"]
 [ext_resource type="Script" path="res://actors/State-Area2D/DummyState.gd" id="2_jqnr8"]
-[ext_resource type="PackedScene" uid="uid://dmsrjjaobe4i" path="res://actors/State-Area2D/State-Area2D.tscn" id="3_c0mjn"]
 [ext_resource type="Script" path="res://actors/StateMachine/StateMachine.gd" id="3_xmlvl"]
 [ext_resource type="Script" path="res://actors/StateMachine/IdleState.gd" id="4_51dsh"]
 [ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/Camera2D.gd" id="4_mkqtv"]
@@ -16,8 +15,9 @@
 [ext_resource type="Script" path="res://actors/UI/StatusBar-Panel.gd" id="12_dw60l"]
 [ext_resource type="PackedScene" uid="uid://cilyd52xx5vbk" path="res://actors/UI/fsm_settings.tscn" id="14_q3lxi"]
 [ext_resource type="PackedScene" uid="uid://dum3q2v0kpa35" path="res://actors/CodeGen/code_gen.tscn" id="16_fees0"]
+[ext_resource type="Script" path="res://actors/Transition/Transition Options.gd" id="16_fnb4n"]
 
-[node name="T005-file-dialog" type="Node2D"]
+[node name="Woostie" type="Node2D"]
 script = ExtResource("1_yxgdj")
 
 [node name="DummyState" type="Node2D" parent="."]
@@ -47,12 +47,6 @@ script = ExtResource("6_gcvm3")
 script = ExtResource("8_q23yr")
 
 [node name="States" type="Node" parent="."]
-
-[node name="State-Area2D" parent="States" instance=ExtResource("3_c0mjn")]
-position = Vector2(458, 74)
-
-[node name="State-Area2D2" parent="States" instance=ExtResource("3_c0mjn")]
-position = Vector2(191, 362)
 
 [node name="Transitions" type="Node" parent="."]
 
@@ -112,7 +106,15 @@ visible = false
 controller = NodePath("../Controller")
 
 [node name="CodeGen" parent="." node_paths=PackedStringArray("controller") instance=ExtResource("16_fees0")]
+visible = false
 controller = NodePath("../Controller")
+
+[node name="Transition Options" type="Window" parent="."]
+title = "Transition Options"
+initial_position = 2
+size = Vector2i(500, 500)
+visible = false
+script = ExtResource("16_fnb4n")
 
 [connection signal="camera_moved" from="Camera2D" to="Camera2D" method="_on_camera_moved"]
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]
@@ -120,3 +122,5 @@ controller = NodePath("../Controller")
 [connection signal="close_requested" from="FSM Settings" to="FSM Settings" method="_on_close_requested"]
 [connection signal="about_to_popup" from="CodeGen" to="CodeGen" method="_on_about_to_popup"]
 [connection signal="close_requested" from="CodeGen" to="CodeGen" method="_on_close_requested"]
+[connection signal="about_to_popup" from="Transition Options" to="Transition Options" method="_on_about_to_popup"]
+[connection signal="close_requested" from="Transition Options" to="Transition Options" method="_on_close_requested"]

@@ -13,7 +13,7 @@ func setup(transition_idx,transition_points,transitions):
 	self.transition_points = transition_points
 func do():
 	created_transition = transition.instantiate()
-	created_transition.setup(transition_points[1],transition_points[0])
+	created_transition.setup(transition_idx,transition_points[1],transition_points[0])
 	transitions.add_child(created_transition)
 	
 func undo():

@@ -28,7 +28,7 @@ func _draw():
 #	print("world_ll:"+str(world_ll))
 #	print("world_ur:"+str(world_ur))
 #	print("world_lr:"+str(world_lr))
-	
+	# _mg for "Minus Global - this should be in local coordinates
 	var world_ul_mg : Vector2 = world_ul - global_position
 	var world_ll_mg : Vector2 = world_ll - global_position
 	var world_ur_mg : Vector2 = world_ur - global_position

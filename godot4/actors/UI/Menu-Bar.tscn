@@ -54,7 +54,7 @@ popup/item_2/id = 2
 [node name="ToolsMenu" type="MenuButton" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "Tools"
-item_count = 4
+item_count = 5
 popup/item_0/text = "Debug - Add Transition"
 popup/item_0/id = 0
 popup/item_1/text = "Debug - Add State"
@@ -63,3 +63,5 @@ popup/item_2/text = "Show Settings"
 popup/item_2/id = 2
 popup/item_3/text = "Mark Reset State"
 popup/item_3/id = 3
+popup/item_4/text = "Generate Code"
+popup/item_4/id = 4
