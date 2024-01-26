@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://b3qsqgbyst2ho"]
+
+[ext_resource type="Script" path="res://experiments/008-wire-test-0/008-wire-test-0.gd" id="1_4tpa4"]
+[ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/Camera2D.gd" id="2_7p04s"]
+[ext_resource type="Script" path="res://actors/Camera-With-GridGenerator/GridGenerator.gd" id="3_4vcsh"]
+[ext_resource type="Script" path="res://experiments/008-wire-test-0/Cursor.gd" id="4_7imb2"]
+[ext_resource type="Script" path="res://experiments/008-wire-test-0/Connector.gd" id="5_d55ce"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vfujb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d23dy"]
+
+[node name="008-wire-test-0" type="Node2D"]
+script = ExtResource("1_4tpa4")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+script = ExtResource("2_7p04s")
+
+[node name="GridGenerator" type="Node2D" parent="Camera2D"]
+script = ExtResource("3_4vcsh")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+
+[node name="Cursor" type="Node2D" parent="."]
+script = ExtResource("4_7imb2")
+
+[node name="CursorArea" type="Area2D" parent="Cursor"]
+
+[node name="CursorCollisionShape" type="CollisionShape2D" parent="Cursor/CursorArea"]
+shape = SubResource("RectangleShape2D_vfujb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MousePos" type="Label" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+offset_right = 76.0
+offset_bottom = -1.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "TEST TEST"
+
+[node name="Connector" type="Node2D" parent="."]
+position = Vector2(349, 252)
+script = ExtResource("5_d55ce")
+
+[node name="Area2D" type="Area2D" parent="Connector"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Connector/Area2D"]
+shape = SubResource("RectangleShape2D_d23dy")
+
+[node name="Controller" type="Node" parent="Connector"]
+
+[connection signal="camera_moved" from="Camera2D" to="Camera2D" method="_on_camera_moved"]
+[connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]
+[connection signal="area_entered" from="Connector/Area2D" to="Connector" method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Connector/Area2D" to="Connector" method="_on_area_2d_area_exited"]
